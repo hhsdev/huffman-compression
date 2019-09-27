@@ -5,35 +5,28 @@ project(hcomp
 	DESCRIPTION "Compresses files using Huffman algorithm"
 	LANGUAGES CXX)
 
-
-set(INCLUDE_DIR 
-	"${PROJECT_SOURCE_DIR}/include"
-	CACHE
-	FILEPATH "Include directory for external libraries"
-	FORCE)
-
 find_file(CATCH
 	catch.hpp
 	PATHS "${PROJECT_SOURCE_DIR}/include"
 	PATH_SUFFIXES "catch"
 	DOC "catch.hpp location")
 
-if (CATCH-NOTFOUND)
+if (CATCH STREQUAL "CATCH-NOTFOUND")
 # download catch.hpp from github
-	set(CATCH_URL 
-		"https://raw.githubusercontent.com/catchorg/Catch2/master/include/catch.hpp"
-		CACHE
-		"Url for catch.hpp")
 	execute_process(COMMAND "wget"
+		"-P"
+		"${PROJECT_SOURCE_DIR}/include"
 		"https://raw.githubusercontent.com/catchorg/Catch2/master/include/catch.hpp"
-		"${INCLUDE_DIR}"
 		RESULT_VARIABLE CATCH_DOWNLOAD_RESULT)
 
-	if (CATCH_DOWNLOAD_RESULT NOT_EQUAL 0)
+	if (NOT (CATCH_DOWNLOAD_RESULT EQUAL 0))
 		message(SEND_ERROR "Failed to download catch.hpp. "
-			"Please manually download catch.hpp from ${CATCH_URL} "
-			"and put it into ${INCLUDE_DIR}")
+			"Please manually download catch.hpp from "
+			"https://raw.githubusercontent.com/catchorg/Catch2/master/include/catch.hpp"
+			"and put it into ${PROJECT_SOURCE_DIR}/include")
 	endif()
+else()
+	message("catch.hpp: ${CATCH}")
 endif()
-
-
+add_subdirectory(${PROJECT_SOURCE_DIR}/huffman-compression)
+add_subdirectory(${PROJECT_SOURCE_DIR}/test)
