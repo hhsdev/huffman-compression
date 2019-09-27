@@ -16,17 +16,15 @@ if (CATCH STREQUAL "CATCH-NOTFOUND")
 	execute_process(COMMAND "wget"
 		"-P"
 		"${PROJECT_SOURCE_DIR}/include"
-		"https://raw.githubusercontent.com/catchorg/Catch2/master/include/catch.hpp"
+		"https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp"
 		RESULT_VARIABLE CATCH_DOWNLOAD_RESULT)
 
 	if (NOT (CATCH_DOWNLOAD_RESULT EQUAL 0))
 		message(SEND_ERROR "Failed to download catch.hpp. "
 			"Please manually download catch.hpp from "
-			"https://raw.githubusercontent.com/catchorg/Catch2/master/include/catch.hpp"
+			"https://raw.githubusercontent.com/catchorg/Catch2/master/single_include/catch2/catch.hpp"
 			"and put it into ${PROJECT_SOURCE_DIR}/include")
 	endif()
-else()
-	message("catch.hpp: ${CATCH}")
 endif()
 add_subdirectory(${PROJECT_SOURCE_DIR}/huffman-compression)
 add_subdirectory(${PROJECT_SOURCE_DIR}/test)
