@@ -7,14 +7,14 @@
 class Compressor {
 public:
 	static constexpr int NUM_ALL_CHARS = CHAR_MAX + 1;
-	using ArrayBigEnoughForAllChars
+	using ArrayFittingAllChars
 		= std::array<int, NUM_ALL_CHARS>;
 
 	Compressor();
 	void countFrequencies(const std::string& input);
 	int getFrequency(char c);
 private:
-	ArrayBigEnoughForAllChars characterFrequencies;
+	ArrayFittingAllChars characterFrequencies;
 
 };
 

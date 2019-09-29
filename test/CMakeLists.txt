@@ -2,7 +2,9 @@ add_executable(main ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/compressor.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/compressor.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_node.cpp
-					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_node.test.cpp)
+					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_node.test.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_tree.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_tree.test.cpp)
 
 set_target_properties(main
 	PROPERTIES
@@ -18,6 +20,4 @@ target_include_directories(main
 
 target_compile_options(main PRIVATE
 	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-Wall>
-	$<$<CXX_COMPILER_ID:MSVC>:
-		/W4>)
+		-g -fsanitize=leak>)
