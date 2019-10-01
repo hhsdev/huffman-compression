@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "huffman_node.hpp"
 
-TEST_CASE("HuffmanNode works", "[HuffmanNode]") {
+TEST_CASE("HuffmanNode", "[HuffmanNode]") {
 	HuffmanNode leafNode1('a', 3);
 	HuffmanNode leafNode2('b', 5);
 

@@ -1,15 +1,17 @@
 add_executable(main ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
-					${CMAKE_SOURCE_DIR}/huffman-compression/src/compressor.cpp
-					${CMAKE_CURRENT_SOURCE_DIR}/src/compressor.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_node.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_node.test.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/compressor.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/compressor.test.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/prefix.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/prefix.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_tree.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_tree.test.cpp)
 
 set_target_properties(main
 	PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-	CXX_STANDARD 14)
+	CXX_STANDARD 17)
 
 get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 
