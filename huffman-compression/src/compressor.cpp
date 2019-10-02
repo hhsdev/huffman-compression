@@ -13,7 +13,7 @@ int Compressor::getFrequency(const char ch) const {
 std::string Compressor::compress(const std::string& input) {
   countFrequencies(input);
   auto prefixes = HuffmanTree(characterFrequencies).buildPrefixArray();
-  Word buffer = 0;
+  Huffman::Word buffer = 0;
   int codeBitsInBuffer = 0;
   std::string ret;
   std::ostringstream os(ret);
@@ -40,7 +40,7 @@ void Compressor::countFrequencies(const std::string& input) {
     characterFrequencies[c] += 1;
   }
 }
-bool Compressor::packIntoBuffer(Word& buffer, int& codeBitsInBuffer, int code,
+bool Compressor::packIntoBuffer(Huffman::Word& buffer, int& codeBitsInBuffer, int code,
                                 int codeLength) {
   constexpr int bufferSize = sizeof(buffer) * CHAR_BIT;
   const int bitsToAdd = std::min(bufferSize - codeBitsInBuffer, codeLength);

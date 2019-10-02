@@ -3,7 +3,7 @@
 #include "compressor.hpp"
 #include <iostream>
 TEST_CASE("HuffmanTree", "[HuffmanTree]") {
-	Compressor::ArrayFittingAllChars arr = {};
+	Huffman::CharSizedArray<int> arr = {};
 	arr['a'] = 3;
 	arr['b'] = 5;
 	arr['c'] = 1;
@@ -23,5 +23,8 @@ TEST_CASE("HuffmanTree", "[HuffmanTree]") {
 	  
 	  REQUIRE(prefixes['b'].getCode() != prefixes['a'].getCode() >> 1);
 	  REQUIRE(prefixes['b'].getCode() != prefixes['c'].getCode() >> 1);
+	}
+
+	SECTION("Codes are correctly packed into buffer") {
 	}
 }
