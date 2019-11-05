@@ -1,37 +1,48 @@
 #include "./huffman_node.hpp"
 
-HuffmanNode::HuffmanNode() : left(nullptr), right(nullptr), count(-1), ch(-1) {}
+HuffmanNode::HuffmanNode()
+    : left(nullptr), right(nullptr), frequency(-1), ch(-1) {}
 
-HuffmanNode::HuffmanNode(char ch, int count)
-    : left(nullptr), right(nullptr), count(count), ch(ch) {}
+HuffmanNode::HuffmanNode(char ch, int frequency)
+    : left(nullptr), right(nullptr), frequency(frequency), ch(ch) {}
+
 HuffmanNode::HuffmanNode(const HuffmanNode& left, const HuffmanNode& right)
     : left(&left),
       right(&right),
-      count(left.getCount() + right.getCount()),
+      frequency(left.getFrequency() + right.getFrequency()),
       ch(-1) {}
+
+bool HuffmanNode::hasChar() const { return ch >= 0; }
 
 short HuffmanNode::getChar() const { return ch; }
 
-int HuffmanNode::getCount() const { return count; }
+int HuffmanNode::getFrequency() const { return frequency; }
 
 const HuffmanNode* HuffmanNode::getLeft() const { return left; }
+
 const HuffmanNode* HuffmanNode::getRight() const { return right; }
 
 bool HuffmanNode::operator<(const HuffmanNode& other) const {
-  return getCount() < other.getCount();
+  return getFrequency() < other.getFrequency();
 }
+
 bool HuffmanNode::operator<=(const HuffmanNode& other) const {
-  return getCount() <= other.getCount();
+  return getFrequency() <= other.getFrequency();
 }
+
 bool HuffmanNode::operator>(const HuffmanNode& other) const {
-  return getCount() > other.getCount();
+  return getFrequency() > other.getFrequency();
 }
+
 bool HuffmanNode::operator>=(const HuffmanNode& other) const {
-  return getCount() >= other.getCount();
+  return getFrequency() >= other.getFrequency();
 }
+
 bool HuffmanNode::operator==(const HuffmanNode& other) const {
-  return getCount() == other.getCount();
+  return getFrequency() == other.getFrequency();
 }
+
 bool HuffmanNode::operator!=(const HuffmanNode& other) const {
-  return getCount() != other.getCount();
+  return getFrequency() != other.getFrequency();
 }
+
