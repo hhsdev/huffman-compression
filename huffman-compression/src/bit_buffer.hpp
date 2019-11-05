@@ -98,4 +98,4 @@ if_integer_then_return<T, void> BitBuffer::packIntoExistingByte(T bitData,
                                                                 int numBits) {
   if (container.empty() || freeSpace < numBits) return;
   container.back() |= (bitData << (freeSpace - numBits));
-
+}
