@@ -3,21 +3,20 @@
 #include <array>
 #include <climits>
 #include <string>
+
 #include "./util.hpp"
+#include "./code_word.hpp"
+#include "./bit_buffer.hpp"
+
 class Compressor {
  public:
   Compressor();
-  std::string compress(const std::string& input);
-  void countFrequencies(const std::string& input);
+  BitBuffer compress(const std::string& input);
+  void countCharacterFrequencies(const std::string& input);
   int getFrequency(const char ch) const;
-
-  bool packIntoBuffer(Huffman::Word& buffer, int& codeBitsInBuffer,
-	                  int code, int codeLength);
-  std::pair<int, int> getSpilledBits(int code, int codeLength,
-                                     int codeBitsInBuffer);
  private:
   Huffman::CharSizedArray<int> characterFrequencies;
+  Huffman::CharSizedArray<CodeWord> compressionCodes;
 };
 
 #endif  //! H_COMPRESSOR_COMPRESSOR_H_
-
