@@ -1,30 +1,22 @@
-#include "catch.hpp"
-#include "huffman_tree.hpp"
-#include "compressor.hpp"
 #include <iostream>
+#include "catch.hpp"
+#include "compressor.hpp"
+#include "huffman_node.hpp"
+#include "huffman_tree.hpp"
+
 TEST_CASE("HuffmanTree", "[HuffmanTree]") {
-	Huffman::CharSizedArray<int> arr = {};
-	arr['a'] = 3;
-	arr['b'] = 5;
-	arr['c'] = 1;
-	HuffmanTree t(arr);
-	SECTION("Constructor works") {
-		REQUIRE(t.getRoot()->getCount() == 9);
-                REQUIRE(t.getRoot()->getCount() ==
-                        t.getRoot()->getLeft()->getCount() +
-                            t.getRoot()->getRight()->getCount());
-        }
+  Huffman::CharSizedArray<int> charFrequencies = {};
+  int aFrequency = 1, bFrequency = 2, cFrequency = 3;
+  charFrequencies['a'] = aFrequency;
+  charFrequencies['b'] = bFrequency;
+  charFrequencies['c'] = cFrequency;
 
-	SECTION("Correctly assigns prefixes") {
-	  auto prefixes = t.buildPrefixArray();
-	  REQUIRE(prefixes['b'].getCodeLength() == 1);
-	  REQUIRE(prefixes['a'].getCodeLength() == 2);
-	  REQUIRE(prefixes['c'].getCodeLength() == 2);
-	  
-	  REQUIRE(prefixes['b'].getCode() != prefixes['a'].getCode() >> 1);
-	  REQUIRE(prefixes['b'].getCode() != prefixes['c'].getCode() >> 1);
-	}
+  HuffmanTree t(charFrequencies);
+  SECTION("Constructor works") {
+	// check nodes have correct frequency counts
+    REQUIRE(t.getRoot()->getFrequency() == aFrequency + bFrequency + cFrequency);
+    REQUIRE(t.getRoot()->getFrequency() == t.getRoot()->getLeft()->getFrequency() +
+                                           t.getRoot()->getRight()->getFrequency());
+  }
 
-	SECTION("Codes are correctly packed into buffer") {
-	}
 }

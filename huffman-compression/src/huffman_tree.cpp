@@ -4,35 +4,11 @@
 
 #include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
+#include "./code_word.hpp"
 
 HuffmanTree::HuffmanTree(const Huffman::CharSizedArray<int> &frequencyCounts) {
-  PriorityQueue lowToHighFrequency = makeNodesFromChars(frequencyCounts);
-  this->root = buildTree(lowToHighFrequency);
-}
-
-Huffman::CharSizedArray<Prefix> HuffmanTree::buildPrefixArray() {
-  Huffman::CharSizedArray<Prefix> ret;
-  accumulatePrefixes(getRoot()->getLeft(), ret, Prefix(), true);
-  accumulatePrefixes(getRoot()->getRight(), ret, Prefix(), false);
-
-  return ret;
-}
-
-void HuffmanTree::accumulatePrefixes(const HuffmanNode *node,
-                                         Huffman::CharSizedArray<Prefix> &arr,
-                                         const Prefix &parentPrefix,
-                                         bool isLeftChild) {
-  if (node == nullptr) return;
-  Prefix currentPrefix = parentPrefix;
-  currentPrefix.add(isLeftChild ? 0 : 1);
-
-  if (node->getChar() >= 0) arr[node->getChar()] = currentPrefix;
-
-  if (node->getLeft())
-    accumulatePrefixes(node->getLeft(), arr, currentPrefix, true);
-
-  if (node->getRight())
-    accumulatePrefixes(node->getRight(), arr, currentPrefix, false);
+  PriorityQueue lowToHighFrequencyNodes = makeNodesFromChars(frequencyCounts);
+  this->root = buildTree(lowToHighFrequencyNodes);
 }
 
 HuffmanTree::PriorityQueue HuffmanTree::makeNodesFromChars(
@@ -49,7 +25,7 @@ HuffmanTree::PriorityQueue HuffmanTree::makeNodesFromChars(
 }
 
 HuffmanNode *HuffmanTree::buildTree(PriorityQueue &nodes) {
-  while (nodes.size() != 1) {
+  while (nodes.size() > 1) {
     HuffmanNode *leftChildNode = new HuffmanNode(*nodes.top());
     nodes.pop();
     HuffmanNode *rightChildNode = new HuffmanNode(*nodes.top());

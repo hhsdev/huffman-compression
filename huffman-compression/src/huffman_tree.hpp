@@ -4,32 +4,28 @@
 #include <queue>
 
 #include "./compressor.hpp"
-#include "./huffman_node.hpp"  // TODO: just use forward declaration
-#include "./prefix.hpp"
 #include "./util.hpp"
 
+class HuffmanNode;
+
 class HuffmanTree {
+ public:
   using PriorityQueueCompareFunction =
       std::function<bool(const HuffmanNode*, const HuffmanNode*)>;
   using PriorityQueue =
       std::priority_queue<HuffmanNode*, std::vector<HuffmanNode*>,
                           PriorityQueueCompareFunction>;
-
+  using node_t = HuffmanNode;
  public:
-  const HuffmanNode* getRoot() const { return root; }
+  const node_t* getRoot() const { return root; }
   HuffmanTree(const Huffman::CharSizedArray<int>& frequencyCounts);
-  Huffman::CharSizedArray<Prefix> buildPrefixArray();
-  void accumulatePrefixes(const HuffmanNode* node,
-                          Huffman::CharSizedArray<Prefix>& arr,
-                          const Prefix& parentPrefix, bool isLeft);
   ~HuffmanTree();
 
  private:
-  void recursiveDelete(const HuffmanNode* node);
-  HuffmanTree::PriorityQueue makeNodesFromChars(
+  void recursiveDelete(const node_t* node);
+  PriorityQueue makeNodesFromChars(
       const Huffman::CharSizedArray<int>& frequencyCounts);
-  HuffmanNode* buildTree(PriorityQueue& nodes);
-  HuffmanNode* root;
-
+ node_t* buildTree(PriorityQueue& nodes);
+  node_t* root;
 };
 #endif  //! H_COMPRESSOR_HUFFMAN_TREE_H_
