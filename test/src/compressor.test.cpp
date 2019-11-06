@@ -48,8 +48,8 @@ TEST_CASE("Compressor", "[Compressor]") {
 
 
 	auto output = c.compress(inputFixture);
-	// since huffman encoding is optimal, the size of compressed strings
-	// should be the same, even if encoding is different
+	// since huffman encoding is optimal, the size of compressed output
+	// should be the same, even if encodings are different
 	REQUIRE(output.getLength() == outputFixture.size());
   }
 }

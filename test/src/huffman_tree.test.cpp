@@ -12,11 +12,19 @@ TEST_CASE("HuffmanTree", "[HuffmanTree]") {
   charFrequencies['c'] = cFrequency;
 
   HuffmanTree t(charFrequencies);
-  SECTION("Constructor works") {
-	// check nodes have correct frequency counts
-    REQUIRE(t.getRoot()->getFrequency() == aFrequency + bFrequency + cFrequency);
-    REQUIRE(t.getRoot()->getFrequency() == t.getRoot()->getLeft()->getFrequency() +
-                                           t.getRoot()->getRight()->getFrequency());
-  }
+  SECTION("Construction") {
+    auto root = t.getRoot();
+    auto leftChild = root->getLeft();
+    auto rightChild = root->getRight();
+    // check for correct frequency counts
+    REQUIRE(root->getFrequency() == aFrequency + bFrequency + cFrequency);
+    REQUIRE(root->getFrequency() ==
+            leftChild->getFrequency() + rightChild->getFrequency());
 
+	// check for correct heights
+	REQUIRE(t.getHeight() == root->getHeight());
+    REQUIRE(root->getHeight() == 2);
+	REQUIRE(std::min(leftChild->getHeight(), rightChild->getHeight()) == 0);
+	REQUIRE(std::max(leftChild->getHeight(), rightChild->getHeight()) == 1);
+  }
 }

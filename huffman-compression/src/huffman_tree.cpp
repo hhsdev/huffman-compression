@@ -2,9 +2,9 @@
 #include <iostream>
 #include <iterator>
 
+#include "./code_word.hpp"
 #include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
-#include "./code_word.hpp"
 
 HuffmanTree::HuffmanTree(const Huffman::CharSizedArray<int> &frequencyCounts) {
   PriorityQueue lowToHighFrequencyNodes = makeNodesFromChars(frequencyCounts);
@@ -14,28 +14,28 @@ HuffmanTree::HuffmanTree(const Huffman::CharSizedArray<int> &frequencyCounts) {
 HuffmanTree::PriorityQueue HuffmanTree::makeNodesFromChars(
     const Huffman::CharSizedArray<int> &frequencyCounts) {
   HuffmanTree::PriorityQueue nodes(
-      [](const HuffmanNode *a, const HuffmanNode *b) { return *a > *b; });
+      [](const node_t *a, const node_t *b) { return *a > *b; });
 
   for (int ch = 0; ch < frequencyCounts.size(); ++ch) {
     if (frequencyCounts[ch] > 0) {
-      nodes.push(new HuffmanNode(ch, frequencyCounts[ch]));
+      nodes.push(new node_t(ch, frequencyCounts[ch]));
     }
   }
   return nodes;
 }
 
-HuffmanNode *HuffmanTree::buildTree(PriorityQueue &nodes) {
+HuffmanTree::node_t *HuffmanTree::buildTree(PriorityQueue &nodes) {
   while (nodes.size() > 1) {
-    HuffmanNode *leftChildNode = new HuffmanNode(*nodes.top());
+    node_t *leftChild = new node_t(*nodes.top());
     nodes.pop();
-    HuffmanNode *rightChildNode = new HuffmanNode(*nodes.top());
+    node_t *rightChild = new node_t(*nodes.top());
     nodes.pop();
-    nodes.push(new HuffmanNode(*leftChildNode, *rightChildNode));
+    nodes.push(new node_t(*leftChild, *rightChild));
   }
   return nodes.top();
 }
 
-void HuffmanTree::recursiveDelete(const HuffmanNode *node) {
+void HuffmanTree::recursiveDelete(const node_t *node) {
   if (node == nullptr) return;
   if (node->getLeft() == nullptr && node->getRight() == nullptr) {
     delete node;
@@ -47,7 +47,7 @@ void HuffmanTree::recursiveDelete(const HuffmanNode *node) {
 }
 
 HuffmanTree::~HuffmanTree() {
-  HuffmanNode *iterNode = root;
+  node_t *iterNode = root;
   recursiveDelete(root);
 }
 

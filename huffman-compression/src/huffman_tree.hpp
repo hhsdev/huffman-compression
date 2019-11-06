@@ -10,17 +10,17 @@ class HuffmanNode;
 
 class HuffmanTree {
  public:
-  using PriorityQueueCompareFunction =
-      std::function<bool(const HuffmanNode*, const HuffmanNode*)>;
-  using PriorityQueue =
-      std::priority_queue<HuffmanNode*, std::vector<HuffmanNode*>,
-                          PriorityQueueCompareFunction>;
   using node_t = HuffmanNode;
- public:
+  using compare_func_t =
+      std::function<bool(const node_t*, const node_t*)>;
+  using PriorityQueue = std::priority_queue<node_t*, std::vector<node_t*>,
+                                            compare_func_t>;
+
   const node_t* getRoot() const { return root; }
+  int getHeight() const { return root->getHeight(); 
   HuffmanTree(const Huffman::CharSizedArray<int>& frequencyCounts);
   ~HuffmanTree();
-
+  
  private:
   void recursiveDelete(const node_t* node);
   PriorityQueue makeNodesFromChars(
