@@ -17,7 +17,7 @@ class HuffmanTree {
                                             compare_func_t>;
 
   const node_t* getRoot() const { return root; }
-  int getHeight() const { return root->getHeight(); 
+  int getHeight() const { return root->getHeight(); }
   HuffmanTree(const Huffman::CharSizedArray<int>& frequencyCounts);
   ~HuffmanTree();
   

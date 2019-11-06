@@ -20,6 +20,7 @@ std::string to_binary(const CodeWord& code) {
   }
   return toReturn;
 }
+
 Compressor::Compressor() : characterFrequencies() {}
 
 int Compressor::getFrequency(const char ch) const {

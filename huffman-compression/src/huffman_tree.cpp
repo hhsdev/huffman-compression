@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iterator>
 
-#include "./code_word.hpp"
 #include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
 
