@@ -71,8 +71,8 @@ TEST_CASE("CompressionCodesBuilder", "[CompressionCodesBuilder]") {
 
   CompressionCodesBuilder<MockTree> builder;
   
-  auto codeWordArray = builder.buildFrom(tree);
-  REQUIRE(codeWordArray['a'].length() == 2);
-  REQUIRE(codeWordArray['b'].length() == 2);
-  REQUIRE(codeWordArray['c'].length() == 1);
+  const auto& codeWordArray = builder.buildFrom(tree);
+  REQUIRE(codeWordArray['a']->size() == 2);
+  REQUIRE(codeWordArray['b']->size() == 2);
+  REQUIRE(codeWordArray['c']->size() == 1);
 }

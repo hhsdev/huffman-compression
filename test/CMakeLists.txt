@@ -3,15 +3,17 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_node.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_node.test.cpp
 
-					${CMAKE_SOURCE_DIR}/huffman-compression/src/code_word.cpp
-					${CMAKE_CURRENT_SOURCE_DIR}/src/code_word.test.cpp
-
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/compressor.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/compressor.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_tree.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_tree.test.cpp
 
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/bit_util.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/bit_util.test.cpp
+
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/bitset_32.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_32.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bit_buffer.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bit_buffer.test.cpp)
