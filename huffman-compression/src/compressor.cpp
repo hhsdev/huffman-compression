@@ -12,20 +12,18 @@ int Compressor::getFrequency(const char ch) const {
   return characterFrequencies[ch];
 }
 
-BitBuffer Compressor::compress(const std::string& input) {
+DynamicBitset Compressor::compress(const std::string& input) {
   countCharacterFrequencies(input);
   loadCompressionCodes();
-  BitBuffer buffer;
+  DynamicBitset buffer;
 
   for (const char ch : input) {
     const auto& code = *compressionCodes[ch];
     // TODO: Replace this with dynamic bitset
     uint32_t bits = 0;
     for (int i = code.size() - 1; i >= 0; --i) {
-      bits <<= 1;
-      bits |= code[i];
+      buffer.push_back(code[i]);
     }
-    buffer.append(bits, code.size());
   }
   return buffer;
 }

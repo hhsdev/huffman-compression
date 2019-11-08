@@ -8,13 +8,14 @@
 #include "./util.hpp"
 #include "./base_bitset.hpp"
 #include "./bit_buffer.hpp"
+#include "./dynamic_bitset.hpp"
 
 class Compressor {
  public:
   Compressor();
   int getFrequency(const char ch) const;
 
-  BitBuffer compress(const std::string& input);
+  DynamicBitset compress(const std::string& input);
   void countCharacterFrequencies(const std::string& input);
   void loadCompressionCodes();
  private:
