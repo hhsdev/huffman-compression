@@ -4,6 +4,7 @@
 
 #include "./base_bitset.hpp"
 #include "./bitset_32.hpp"
+#include "./dynamic_bitset.hpp"
 #include "./util.hpp"
 
 // TODO: Currently, CodeWord only supports trees of height < 32-ish
@@ -29,18 +30,19 @@ class CompressionCodesBuilder {
 
  private:
   CompressionCodes compressionCodes;
-  void accumulateCodeWords(const node_t* node, BaseBitset* parent,
-                           bool isLeft);
+  BaseBitset* chooseAppropriateBitset(const FrequencyTree& tree) const;
+  void accumulateCodeWords(const node_t* node, BaseBitset* parent, bool isLeft);
 };
 
 template <typename FrequencyTree>
 const typename CompressionCodesBuilder<FrequencyTree>::CompressionCodes&
 CompressionCodesBuilder<FrequencyTree>::buildFrom(const FrequencyTree& tree) {
+  std::unique_ptr<BaseBitset> baseBitset(chooseAppropriateBitset(tree));
   if (tree.getRoot()->getLeft() != nullptr)
-    accumulateCodeWords(tree.getRoot()->getLeft(), new Bitset32(0), true);
+    accumulateCodeWords(tree.getRoot()->getLeft(), baseBitset->clone(), true);
 
   if (tree.getRoot()->getRight() != nullptr)
-    accumulateCodeWords(tree.getRoot()->getRight(), new Bitset32(0), false);
+    accumulateCodeWords(tree.getRoot()->getRight(), baseBitset->clone(), false);
   return compressionCodes;
 }
 
@@ -60,5 +62,14 @@ void CompressionCodesBuilder<FrequencyTree>::accumulateCodeWords(
   if (node->getLeft()) accumulateCodeWords(node->getLeft(), current, true);
   if (node->getRight()) accumulateCodeWords(node->getRight(), current, false);
   delete current;
+}
+
+template <typename FrequencyTree>
+BaseBitset* CompressionCodesBuilder<FrequencyTree>::chooseAppropriateBitset(
+    const FrequencyTree& tree) const {
+  if (tree.getHeight() <= 32)
+	return new Bitset32();
+  else
+	return new DynamicBitset();
 }
 #endif

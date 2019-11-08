@@ -4,6 +4,7 @@
 class Bitset32 : public BaseBitset {
  public:
   Bitset32(uint32_t _bits) : BaseBitset(), bits(_bits) {}
+  Bitset32() : Bitset32(0) {}
 
   void push_back(bool val) override {
 	bits <<= 1;

@@ -2,7 +2,7 @@
 #include "bitset_32.hpp"
 
 TEST_CASE("Bitset32", "[Bitset32]") {
-  Bitset32 b(0);
+  Bitset32 b;
   b.push_back(1);
   REQUIRE(b.size() == 1);
   REQUIRE(b.toString() == "1");

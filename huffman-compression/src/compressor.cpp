@@ -1,8 +1,8 @@
 #include <climits>
 #include <sstream>
 
-#include "./compressor.hpp"
 #include "./compression_codes_builder.hpp"
+#include "./compressor.hpp"
 #include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
 
@@ -19,12 +19,12 @@ BitBuffer Compressor::compress(const std::string& input) {
 
   for (const char ch : input) {
     const auto& code = *compressionCodes[ch];
-	// TODO: Replace this with dynamic bitset
-	uint32_t bits = 0;
-	for (int i = code.size() - 1; i >= 0; --i) {
-	  bits <<= 1;
-	  bits |= code[i];
-	}
+    // TODO: Replace this with dynamic bitset
+    uint32_t bits = 0;
+    for (int i = code.size() - 1; i >= 0; --i) {
+      bits <<= 1;
+      bits |= code[i];
+    }
     buffer.append(bits, code.size());
   }
   return buffer;
@@ -39,8 +39,10 @@ void Compressor::countCharacterFrequencies(const std::string& input) {
 
 void Compressor::loadCompressionCodes() {
   CompressionCodesBuilder<HuffmanTree> codeBuilder;
-  const auto& ref = codeBuilder.buildFrom(HuffmanTree(characterFrequencies));
+  const auto& codes = codeBuilder.buildFrom(HuffmanTree(characterFrequencies));
+  // since codes from builder are held in unique_ptrs
+  // we need to clone them
   for (int i = 0; i < compressionCodes.size(); ++i) {
-	compressionCodes[i].reset(ref[i] ? ref[i]->clone() : nullptr);
+    compressionCodes[i].reset(codes[i] ? codes[i]->clone() : nullptr);
   }
 }

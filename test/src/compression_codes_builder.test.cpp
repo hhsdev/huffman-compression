@@ -1,14 +1,22 @@
-#include "catch.hpp"
 #include "./compression_codes_builder.hpp"
+#include "catch.hpp"
+#include <cmath>
 
 class MockNode {
-public:
-  MockNode(int frequency, char value) : frequency(frequency), value(value) {}
+ public:
+  MockNode(int frequency, char value)
+      : frequency(frequency),
+        value(value),
+        left(nullptr),
+        right(nullptr),
+        height(0) {
+	height = calculateHeight();
+  }
 
   bool hasChar() const { return value >= 0; }
   int getFrequency() const { return frequency; }
   int getChar() const { return value; }
-  
+
   void setFrequency(int frequency) { this->frequency = frequency; }
   void setValue(int value) { this->value = value; }
 
@@ -18,26 +26,38 @@ public:
   const MockNode* getLeft() const { return left; }
   const MockNode* getRight() const { return right; }
 
-  void setLeft(MockNode* node) { left = node; }
-  void setRight(MockNode* node) { right = node; }
-  
-private:
-  int frequency; char value;
+  void setLeft(MockNode* node) {
+	left = node;
+	height = calculateHeight();
+  }
+  void setRight(MockNode* node) { 
+	right = node;
+	height = calculateHeight();
+  }
+
+  int getHeight() const { return height; }
+
+ private:
+  int calculateHeight() const {
+	int leftHeight = left ? left->height : -1;
+	int rightHeight = right ? right->height : -1;
+	return std::max(leftHeight, rightHeight) + 1;
+  }
+  int frequency;
+  char value;
   MockNode* left;
   MockNode* right;
+  int height;
 };
 
 class MockTree {
-public:
+ public:
   using node_t = MockNode;
   MockTree(MockNode* root) : root(root) {}
-  MockNode* getRoot() {
-	return root;
-  }
-  const MockNode* getRoot() const {
-	return root;
-  }
-private:
+  MockNode* getRoot() { return root; }
+  const MockNode* getRoot() const { return root; }
+  int getHeight() const { return root->getHeight(); }
+ private:
   MockNode* root;
 };
 
@@ -70,7 +90,7 @@ TEST_CASE("CompressionCodesBuilder", "[CompressionCodesBuilder]") {
   REQUIRE(tree.getRoot()->getLeft()->getRight() == &b);
 
   CompressionCodesBuilder<MockTree> builder;
-  
+
   const auto& codeWordArray = builder.buildFrom(tree);
   REQUIRE(codeWordArray['a']->size() == 2);
   REQUIRE(codeWordArray['b']->size() == 2);

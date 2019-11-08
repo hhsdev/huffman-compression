@@ -15,6 +15,9 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bitset_32.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_32.test.cpp
 
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/dynamic_bitset.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/dynamic_bitset.test.cpp
+
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bit_buffer.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bit_buffer.test.cpp)
 
