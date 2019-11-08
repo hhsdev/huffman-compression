@@ -7,18 +7,6 @@
 #include "./dynamic_bitset.hpp"
 #include "./util.hpp"
 
-// TODO: Currently, CodeWord only supports trees of height < 32-ish
-// Although unlikely, trees can grow pass that limit. We should add
-// support for such cases. Current idea is to have a CodeWordBase
-// interface and depending on the height of the tree, switch between
-// Classes inheriting from said interface.
-// For short trees:
-//	CodeWord(more performant, but fixed size)
-// For tall trees:
-//	some type of dynamic variant of CodeWord that can accomodate
-//	longer codes but might be less performant.
-
-// BaseCodeWord& code = chooseAppropriateCodeWord(tree);
 template <typename FrequencyTree>
 class CompressionCodesBuilder {
  public:
