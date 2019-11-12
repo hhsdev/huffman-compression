@@ -6,26 +6,25 @@
 #include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
 
-Compressor::Compressor() : characterFrequencies() {}
-
-int Compressor::getFrequency(const char ch) const {
+int Compressor::getFrequency(const unsigned char ch) const {
   return characterFrequencies[ch];
 }
 
-DynamicBitset Compressor::compress(const std::string& input) {
+const BaseBitset& Compressor::getCode(const unsigned char ch) const {
+  return *compressionCodes[ch];
+}
+void Compressor::compress(const std::string& input) {
   countCharacterFrequencies(input);
   loadCompressionCodes();
-  DynamicBitset buffer;
 
   for (const char ch : input) {
     const auto& code = *compressionCodes[ch];
     // TODO: Replace this with dynamic bitset
     uint32_t bits = 0;
     for (int i = code.size() - 1; i >= 0; --i) {
-      buffer.push_back(code[i]);
+      compressedBits.push_back(code[i]);
     }
   }
-  return buffer;
 }
 
 void Compressor::countCharacterFrequencies(const std::string& input) {
@@ -41,6 +40,6 @@ void Compressor::loadCompressionCodes() {
   // since codes from builder are held in unique_ptrs
   // we need to clone them
   for (int i = 0; i < compressionCodes.size(); ++i) {
-    compressionCodes[i].reset(codes[i] ? codes[i]->clone() : nullptr);
+    compressionCodes[i].reset(codes[i] ? codes[i]->clone() : new Bitset32());
   }
 }

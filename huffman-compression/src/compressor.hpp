@@ -1,24 +1,29 @@
 #ifndef H_COMPRESSOR_COMPRESSOR_H_
 #define H_COMPRESSOR_COMPRESSOR_H_
 #include <array>
-#include <memory>
 #include <climits>
+#include <memory>
 #include <string>
 
-#include "./util.hpp"
 #include "./base_bitset.hpp"
-#include "./bit_buffer.hpp"
 #include "./dynamic_bitset.hpp"
+#include "./util.hpp"
 
 class Compressor {
  public:
-  Compressor();
-  int getFrequency(const char ch) const;
+  Compressor() = default;
+  int getFrequency(const unsigned char ch) const;
+  const BaseBitset& getCode(const unsigned char ch) const;
 
-  DynamicBitset compress(const std::string& input);
+  void compress(const std::string& input);
   void countCharacterFrequencies(const std::string& input);
-  void loadCompressionCodes();
+
+  DynamicBitset& getBits() { return compressedBits; }
+
  private:
+  void loadCompressionCodes();
+
+  DynamicBitset compressedBits;
   Huffman::CharSizedArray<int> characterFrequencies;
   Huffman::CharSizedArray<std::unique_ptr<BaseBitset>> compressionCodes;
 };
