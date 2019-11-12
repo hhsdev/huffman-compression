@@ -31,8 +31,8 @@ class BaseBitset {
   };
 
   BaseBitset() = default;
+  virtual unsigned char getByte(int index) const = 0;
   virtual void push_back(bool val) = 0;
-
   virtual bool operator[](int index) const = 0;
   virtual reference operator[](int index) = 0;
 

@@ -17,6 +17,7 @@ TEST_CASE("dynamic_bitset", "[DynamicBitset]") {
   REQUIRE(db.toString() == "11111");
   REQUIRE(db.size() == 5);
 
+  REQUIRE(db.getByte(0) == 0b0001'1111);
   auto newDb = db.clone();
   REQUIRE(newDb->toString() == "11111");
 

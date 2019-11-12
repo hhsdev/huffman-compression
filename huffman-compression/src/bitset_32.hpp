@@ -1,44 +1,29 @@
 #pragma once
 #include <cstdint>
+#include <climits>
 #include "./base_bitset.hpp"
 class Bitset32 : public BaseBitset {
  public:
-  Bitset32(uint32_t _bits) : BaseBitset(), bits(_bits) {}
-  Bitset32() : Bitset32(0) {}
+  Bitset32();
+  Bitset32(uint32_t _bits, int size);
 
-  void push_back(bool val) override {
-	bits <<= 1;
-	bits |= val;
-	++bitSize;
-  }
-  bool operator[](int index) const override {
-	return get(index);
-  }
-  reference operator[](int index) override {
-	return reference(this, index);
-  }
-  std::string toString() const override {
-	const int sz = this->size();
-	std::string ret;
-	for (int i = sz - 1; i >= 0; --i) {
-	  ret.push_back((*this)[i] ? '1' : '0');
-	}
-	return ret;
-  }
-  int size() const override { return bitSize; }
-  Bitset32* clone() const override { return new Bitset32(*this); }
+  bool operator[](int index) const override;
+  reference operator[](int index) override;
+  unsigned char getByte(int index) const override;
+
+  void push_back(bool val) override;
+
+  std::string toString() const override;
+
+  int size() const override;
+
+  Bitset32* clone() const override;
+
  protected:
-  bool get(int index) const override {
-	return (bits >> index) & 1U;
-  }
-  void set(int index) override {
-	uint32_t mask = uint32_t(1) << index;
-	bits |= mask;
-  }
-  void unset(int index) override {
-	uint32_t mask = ~(uint32_t(1) << index);
-	bits &= mask;
-  }
+  bool get(int index) const override;
+  void set(int index) override;
+  void unset(int index) override;
+
  private:
   uint32_t bits;
   int bitSize = 0;
