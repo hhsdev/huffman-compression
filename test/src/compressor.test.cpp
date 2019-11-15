@@ -1,4 +1,5 @@
 #include <bitset>
+#include <iostream>
 #include <limits>
 #include <string>
 #include "catch.hpp"
@@ -32,7 +33,7 @@ TEST_CASE("Compressor", "[Compressor]") {
     REQUIRE(c.getFrequency('d') == 1);
     REQUIRE(c.getFrequency('e') == 5);
   }
-
+  
   SECTION("Counts of unoccurring chars are set to 0") {
     c.countCharacterFrequencies(testString);
     REQUIRE(c.getFrequency(0) == 0);
@@ -41,6 +42,7 @@ TEST_CASE("Compressor", "[Compressor]") {
   }
 
   SECTION("Get individual codes") {
+	c.buildCodeTable(testString);
     c.compress(testString);
     // occurred characters' code size will be greater than 0
     REQUIRE(c.getCode(testString[0]).size() > 0);
@@ -56,9 +58,23 @@ TEST_CASE("Compressor", "[Compressor]") {
         "1101001100100101101101001100111100100010100101011101011001100111101100"
         "101101101011010000011100101011110110111111101000111111";
 
+	c.buildCodeTable(inputFixture);
     c.compress(inputFixture);
     // since huffman encoding is optimal, the size of compressed output
     // should be the same, even if encodings are different
     REQUIRE(c.getBits().size() == outputFixture.size());
+  }
+  SECTION("Converting to canonical format") {
+	Huffman::CharSizedArray<uint32_t> frequencies = { 0 };
+	frequencies['b'] = 6;
+	frequencies['a'] = 3;
+	frequencies['c'] = 1;
+	frequencies['d'] = 1;
+	c.buildCodeTable(frequencies);
+
+	REQUIRE(c.getCode('b').toString() == "0");
+	REQUIRE(c.getCode('a').toString() == "10");
+	REQUIRE(c.getCode('c').toString() == "110");
+	REQUIRE(c.getCode('d').toString() == "111");
   }
 }

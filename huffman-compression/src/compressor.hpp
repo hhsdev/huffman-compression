@@ -7,7 +7,10 @@
 
 #include "./base_bitset.hpp"
 #include "./dynamic_bitset.hpp"
+#include "./huffman_tree.hpp"
 #include "./util.hpp"
+
+class HuffmanTree;
 
 class Compressor {
  public:
@@ -20,12 +23,22 @@ class Compressor {
 
   DynamicBitset& getBits() { return compressedBits; }
 
+  const Huffman::CharSizedArray<uint32_t>& getFrequencyArray() const {
+    return characterFrequencies;
+  }
+
+  void buildCodeTable(const std::string& input);
+  void buildCodeTable(const Huffman::CharSizedArray<uint32_t>& frequencies);
+  void buildCodeTable(const HuffmanTree& tree);
+
+  void convertToCanonical();
  private:
-  void loadCompressionCodes();
+  void doBuildCodeTable();
+  void doBuildCodeTable(const HuffmanTree& tree);
 
   DynamicBitset compressedBits;
-  Huffman::CharSizedArray<int> characterFrequencies;
-  Huffman::CharSizedArray<std::unique_ptr<BaseBitset>> compressionCodes;
+  Huffman::CharSizedArray<uint32_t> characterFrequencies;
+  Huffman::CharSizedArray<std::unique_ptr<BaseBitset>> codeTable;
 };
 
 #endif  //! H_COMPRESSOR_COMPRESSOR_H_
