@@ -5,7 +5,7 @@ class HuffmanNode {
  public:
   HuffmanNode();
   HuffmanNode(char ch, int frequency);
-  HuffmanNode(const HuffmanNode& left, const HuffmanNode& right);
+  HuffmanNode(HuffmanNode& left, HuffmanNode& right);
   HuffmanNode(const HuffmanNode& other)
 	: left(other.left),
 	  right(other.right),
@@ -17,11 +17,19 @@ class HuffmanNode {
 
   bool hasChar() const { return ch >= 0; }
   short getChar() const { return ch; }
+  short setChar(unsigned char newCh) { ch = newCh; }
   int getFrequency() const { return frequency; }
   int getHeight() const { return height; }
+
   const HuffmanNode* getLeft() const { return left; }
   const HuffmanNode* getRight() const { return right; }
   
+  HuffmanNode* getLeft() { return left; }
+  HuffmanNode* getRight() { return right; }
+
+  void setLeft(HuffmanNode *newLeft) { left = newLeft; }
+  void setRight(HuffmanNode *newRight) { right = newRight; }
+
   bool operator<(const HuffmanNode& other) const;
   bool operator<=(const HuffmanNode& other) const;
   bool operator>(const HuffmanNode& other) const;
@@ -32,8 +40,8 @@ class HuffmanNode {
  private:
   int calculateHeight() const;
 
-  const HuffmanNode* left;
-  const HuffmanNode* right;
+  HuffmanNode* left;
+  HuffmanNode* right;
   int frequency;
   short ch;
   int height;

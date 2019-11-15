@@ -8,7 +8,7 @@ HuffmanNode::HuffmanNode()
 HuffmanNode::HuffmanNode(char ch, int frequency)
     : left(nullptr), right(nullptr), frequency(frequency), ch(ch), height(0) {}
 
-HuffmanNode::HuffmanNode(const HuffmanNode& left, const HuffmanNode& right)
+HuffmanNode::HuffmanNode(HuffmanNode& left, HuffmanNode& right)
     : left(&left),
       right(&right),
       frequency(left.getFrequency() + right.getFrequency()),
