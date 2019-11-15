@@ -2,16 +2,17 @@
 #include <iostream>
 #include <iterator>
 
-#include "./huffman_node.hpp"
 #include "./huffman_tree.hpp"
+#include "./huffman_node.hpp"
 
-HuffmanTree::HuffmanTree(const Huffman::CharSizedArray<int> &frequencyCounts) {
+HuffmanTree::HuffmanTree(
+    const Huffman::CharSizedArray<uint32_t> &frequencyCounts) {
   PriorityQueue lowToHighFrequencyNodes = makeNodesFromChars(frequencyCounts);
   this->root = buildTree(lowToHighFrequencyNodes);
 }
 
 HuffmanTree::PriorityQueue HuffmanTree::makeNodesFromChars(
-    const Huffman::CharSizedArray<int> &frequencyCounts) {
+    const Huffman::CharSizedArray<uint32_t> &frequencyCounts) {
   HuffmanTree::PriorityQueue nodes(
       [](const node_t *a, const node_t *b) { return *a > *b; });
 
@@ -33,6 +34,8 @@ HuffmanTree::node_t *HuffmanTree::buildTree(PriorityQueue &nodes) {
   }
   return nodes.top();
 }
+
+int HuffmanTree::getHeight() const { return root->getHeight(); }
 
 void HuffmanTree::recursiveDelete(const node_t *node) {
   if (node == nullptr) return;
