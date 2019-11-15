@@ -1,6 +1,6 @@
 #pragma once
-#include <cstdint>
 #include <climits>
+#include <cstdint>
 #include "./base_bitset.hpp"
 class Bitset32 : public BaseBitset {
  public:
@@ -9,10 +9,11 @@ class Bitset32 : public BaseBitset {
 
   bool operator[](int index) const override;
   reference operator[](int index) override;
+  BaseBitset& operator++() override;
   unsigned char getByte(int index) const override;
 
   void push_back(bool val) override;
-
+  void clear() override;
   std::string toString() const override;
 
   int size() const override;

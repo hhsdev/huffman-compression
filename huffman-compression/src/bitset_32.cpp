@@ -1,4 +1,5 @@
 #include "./bitset_32.hpp"
+
 Bitset32::Bitset32(uint32_t _bits, int size)
     : BaseBitset(), bits(_bits), bitSize(size) {}
 
@@ -14,6 +15,16 @@ bool Bitset32::operator[](int index) const { return get(index); }
 
 Bitset32::reference Bitset32::operator[](int index) {
   return reference(this, index);
+}
+
+BaseBitset& Bitset32::operator++() {
+  ++bits;
+  return *this;
+}
+
+void Bitset32::clear() {
+  bits = 0;
+  bitSize = 0;
 }
 
 std::string Bitset32::toString() const {

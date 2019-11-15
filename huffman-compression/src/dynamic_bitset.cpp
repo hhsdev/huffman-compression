@@ -14,6 +14,20 @@ void DynamicBitset::push_back(bool val) {
   ++bitSize;
 }
 
+BaseBitset& DynamicBitset::operator++() {
+  for (int i = container.size() - 1; i >= 0; --i) {
+	++container[i];
+	if (container[i] != 0) { 
+	  break;
+	}
+  }
+}
+
+void DynamicBitset::clear() {
+  container.clear();
+  bitSize = 0;
+}
+
 std::string DynamicBitset::toString() const {
   std::string ret;
   for (int i = bitSize - 1; i >= 0; --i) {

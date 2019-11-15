@@ -12,6 +12,9 @@ class DynamicBitset : public BaseBitset {
   
   bool operator[](int index) const;
   reference operator[](int index);
+  BaseBitset& operator++() override;
+
+  void clear() override;
   unsigned char getByte(int index) const override;
 
   int size() const override;
