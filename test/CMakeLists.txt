@@ -1,4 +1,5 @@
 add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/all_bitsets.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_node.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/huffman_node.test.cpp
@@ -17,7 +18,11 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bitset_32.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_32.test.cpp
 
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/tree_reconstruction.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/tree_reconstruction.test.cpp
+
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/writer.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/header.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/writer.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/dynamic_bitset.cpp
