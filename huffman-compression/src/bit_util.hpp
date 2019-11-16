@@ -14,4 +14,8 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type nthBit(
   return (num >> index) & 1U;
 }
 
+int bitOffset(int bitIndex);
+int toByteIndex(int bitIndex);
+int toByteSize(int bitIndex);
+
 }

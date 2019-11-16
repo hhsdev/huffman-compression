@@ -1,3 +1,4 @@
+#include <cmath>
 #include "./bit_util.hpp"
 namespace BitUtil {
 
@@ -12,4 +13,14 @@ std::pair<unsigned char, unsigned char> split(unsigned char byte,
   return {frontPart, backPart};
 }
 
+int bitOffset(int bitIndex) {
+  return bitIndex % CHAR_BIT;
+}
+
+int toByteIndex(int bitIndex) {
+  return bitIndex / CHAR_BIT;
+}
+int toByteSize(int bitSize) {
+  return std::ceil(bitSize / CHAR_BIT);
+}
 }
