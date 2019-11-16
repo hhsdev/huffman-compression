@@ -76,5 +76,9 @@ TEST_CASE("Compressor", "[Compressor]") {
 	REQUIRE(c.getCode('a').toString() == "10");
 	REQUIRE(c.getCode('c').toString() == "110");
 	REQUIRE(c.getCode('d').toString() == "111");
+
+	c.compress("abcd");
+	REQUIRE(c.getBits().toString() == "100110111");
   }
 }
+
