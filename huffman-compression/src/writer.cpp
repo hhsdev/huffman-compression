@@ -1,7 +1,10 @@
 #include "./writer.hpp"
+#include "./util.hpp"
+#include <sstream>
 
 void Writer::compress(std::istream& source) {
   std::string buffer = getContents(source);
+  compressor.buildCodeTable(buffer);
   compressor.compress(buffer);
 }
 
@@ -17,10 +20,7 @@ std::string Writer::getContents(std::istream& source) {
 }
 
 void Writer::writeHeaderChunk(std::ostream& output) {
-  output << "HEAD";
-  output << "0000";  // making place to write size later
-  writeCompressionTable(output);
-  writeHeaderChunkSize(output);
+  output << MetaData().createMetaData(compressor);
 }
 
 void Writer::writeDataChunk(std::ostream& output) {
@@ -31,7 +31,7 @@ void Writer::writeDataChunk(std::ostream& output) {
 }
 
 void Writer::writeCompressionTable(std::ostream& output) {
-  for (int ch = 0; ch < UCHAR_MAX; ++ch) {
+  for (int ch = 0; ch < Huffman::NUM_ALL_CHARS; ++ch) {
     const BaseBitset& code = compressor.getCode(ch);
     if (code.size() > 0) {
       std::string row = createRow(ch, code);

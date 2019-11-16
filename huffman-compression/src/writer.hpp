@@ -1,12 +1,10 @@
 #pragma once
 #include <climits>
 #include <cmath>
-#include <exception>
-#include <fstream>
 #include <iostream>
-#include <sstream>
 
 #include "./compressor.hpp"
+#include "./metadata.hpp"
 class Writer {
  public:
   Writer() = default;
@@ -27,7 +25,7 @@ class Writer {
   void writeDataChunkSize(std::ostream& output);
   void writeDataPaddingSize(std::ostream& output);
   void writeCompressedData(std::ostream& output);
-
+  
   uint32_t headerChunkSize = 0;
   Compressor compressor;
 };
