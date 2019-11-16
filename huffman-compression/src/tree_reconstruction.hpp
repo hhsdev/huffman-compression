@@ -21,6 +21,8 @@ HuffmanTree reconstructFrom(const CodeLengths&);
 
 CodeLengthAndCharPairs pairCharsWithLengths(const CodeLengths&);
 CodeAndCharPairs buildCodes(const CodeLengthAndCharPairs& pairs);
+HuffmanTree buildTree(
+    const Huffman::CharSizedArray<std::unique_ptr<BaseBitset>>& codeTable);
 HuffmanTree buildTree(CodeAndCharPairs& pairs);
 
 void pushBackNZeroes(BaseBitset& code, int n);

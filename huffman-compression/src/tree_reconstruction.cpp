@@ -62,6 +62,17 @@ std::unique_ptr<BaseBitset> generateNextCode(const BaseBitset& code,
   return ret;
 }
 
+HuffmanTree buildTree(
+    const Huffman::CharSizedArray<std::unique_ptr<BaseBitset>>& codeTable) {
+  CodeAndCharPairs pairs;
+  for (int i = 0; i < codeTable.size(); ++i) {
+	if (codeTable[i]->size() > 0) {
+	  pairs.emplace_back(codeTable[i]->clone(), (unsigned char)i);
+	}
+  }
+  return buildTree(pairs);
+}
+
 HuffmanTree buildTree(CodeAndCharPairs& pairs) {
   HuffmanNode* root = new HuffmanNode();
 
