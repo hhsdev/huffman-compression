@@ -19,18 +19,20 @@ class Compressor {
   const BaseBitset& getCode(const unsigned char ch) const;
 
   void compress(const std::string& input);
-  void countCharacterFrequencies(const std::string& input);
 
   DynamicBitset& getBits() { return compressedBits; }
 
   const Huffman::CharSizedArray<uint32_t>& getFrequencyArray() const {
     return characterFrequencies;
   }
-
+  
+  const Huffman::CharSizedArray<std::unique_ptr<BaseBitset>>&
+	getCodeTable() const { return codeTable; }
   void buildCodeTable(const std::string& input);
   void buildCodeTable(const Huffman::CharSizedArray<uint32_t>& frequencies);
   void buildCodeTable(const HuffmanTree& tree);
 
+  void countCharacterFrequencies(const std::string& input);
   void convertToCanonical();
  private:
   void doBuildCodeTable();
