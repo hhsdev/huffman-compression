@@ -1,4 +1,5 @@
 #include "./dynamic_bitset.hpp"
+#include "./bit_util.hpp"
 
 DynamicBitset::DynamicBitset() : container(), bitSize(0) {}
 
@@ -53,24 +54,20 @@ unsigned char DynamicBitset::getByte(int index) const {
 }
 
 bool DynamicBitset::get(int index) const {
-  int byteIndex = toByte(index);
-  int bitIndexWrtByte = bitInByte(index);
+  int byteIndex = BitUtil::toByteIndex(index);
+  int bitOffset = BitUtil::bitOffset(index);
   unsigned char byte = container[container.size() - byteIndex - 1];
-  return (byte >> bitIndexWrtByte) & 1U;
+  return BitUtil::nthBit(byte, bitOffset);
 }
 
 void DynamicBitset::set(int index) {
-  int byteIndex = toByte(index);
-  unsigned char mask = (unsigned char)1 << bitInByte(index);
+  int byteIndex = BitUtil::toByteIndex(index);
+  unsigned char mask = (unsigned char)1 << BitUtil::bitOffset(index);
   container[byteIndex] |= mask;
 }
 
 void DynamicBitset::unset(int index) {
-  int byteIndex = toByte(index);
-  unsigned char mask = ~((unsigned char)1 << bitInByte(index));
+  int byteIndex = BitUtil::toByteIndex(index);
+  unsigned char mask = ~((unsigned char)1 << BitUtil::bitOffset(index));
   container[byteIndex] &= mask;
 }
-
-int DynamicBitset::toByte(int index) const { return index / CHAR_BIT; }
-
-int DynamicBitset::bitInByte(int index) const { return index % CHAR_BIT; }

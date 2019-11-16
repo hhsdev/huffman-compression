@@ -29,8 +29,6 @@ class DynamicBitset : public BaseBitset {
   void unset(int index) override;
 
  private:
-  int toByte(int index) const;
-  int bitInByte(int index) const;
   std::deque<unsigned char> container;
   int bitSize;
 };
