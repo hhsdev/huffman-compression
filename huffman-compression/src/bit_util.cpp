@@ -21,6 +21,6 @@ int toByteIndex(int bitIndex) {
   return bitIndex / CHAR_BIT;
 }
 int toByteSize(int bitSize) {
-  return std::ceil(bitSize / CHAR_BIT);
+  return std::ceil(bitSize / (double)CHAR_BIT);
 }
 }
