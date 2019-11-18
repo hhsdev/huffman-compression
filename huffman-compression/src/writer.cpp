@@ -1,5 +1,7 @@
 #include "./writer.hpp"
 #include "./util.hpp"
+#include "./bit_util.hpp"
+
 #include <sstream>
 
 void Writer::compress(std::istream& source) {
@@ -65,7 +67,7 @@ std::string Writer::createRow(unsigned char c, const BaseBitset& code) {
 
 void Writer::writeDataChunkSize(std::ostream& output) {
   uint32_t bitSize = compressor.getBits().size();
-  uint32_t byteSize = std::ceil(bitSize / double(CHAR_BIT));
+  uint32_t byteSize = BitUtil::toByteSize(bitSize);
   output.write(reinterpret_cast<const char*>(&byteSize), sizeof(byteSize));
 }
 void Writer::writeDataPaddingSize(std::ostream& output) {
@@ -74,4 +76,10 @@ void Writer::writeDataPaddingSize(std::ostream& output) {
   output.write(reinterpret_cast<const char*>(&padding), sizeof(padding));
 }
 
-void Writer::writeCompressedData(std::ostream& output) {}
+void Writer::writeCompressedData(std::ostream& output) {
+  const auto& bits = compressor.getBits();
+  int byteSize = BitUtil::toByteSize(bits.size());
+  for (int i = byteSize - 1; i >= 0; --i) {
+	output << bits.getByte(i);
+  }
+}
