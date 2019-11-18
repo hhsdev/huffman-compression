@@ -82,7 +82,7 @@ void Compressor::convertToCanonical() {
             indicesIntoCompressionCodes.end(), custom_sort);
 
   bool first = true;
-  DynamicBitset previous;
+  DynamicBitset<> previous;
   for (unsigned char c : indicesIntoCompressionCodes) {
     auto& current = *codeTable[c];
     if (first) {

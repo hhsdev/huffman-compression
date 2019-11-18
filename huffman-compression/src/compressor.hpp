@@ -20,7 +20,7 @@ class Compressor {
 
   void compress(const std::string& input);
 
-  DynamicBitset& getBits() { return compressedBits; }
+  DynamicBitset<>& getBits() { return compressedBits; }
 
   const Huffman::CharSizedArray<uint32_t>& getFrequencyArray() const {
     return characterFrequencies;
@@ -38,7 +38,7 @@ class Compressor {
   void doBuildCodeTable();
   void doBuildCodeTable(const HuffmanTree& tree);
 
-  DynamicBitset compressedBits;
+  DynamicBitset<> compressedBits;
   Huffman::CharSizedArray<uint32_t> characterFrequencies;
   Huffman::CharSizedArray<std::unique_ptr<BaseBitset>> codeTable;
 };
