@@ -1,12 +1,12 @@
 #pragma once
 #include <exception>
 #include "./huffman_tree.hpp"
-
+#include "./base_bitset.hpp"
 class HuffmanTree;
 
 class Decompressor {
  public:
-  std::string decompress(const HuffmanTree& tree, const DynamicBitset& bits) const {
+  std::string decompress(const HuffmanTree& tree, const BaseBitset& bits) const {
 	std::string ret;
 	const HuffmanNode* curr = tree.getRoot();
 	if (!curr) {
