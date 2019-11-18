@@ -8,14 +8,24 @@ if __name__ == "__main__":
         print("Usage: " + path.basename(__file__) + " filename tag")
         exit(1)
 
-    filename = argv[1] + ".test.cpp"
-    if path.isfile(filename):
-        print("Error: file(%s) already exists" % (filename))
+    cppName = argv[1] + ".test.cpp"
+    hppName = argv[1] + ".test.hpp"
+
+    if path.isfile(cppName):
+        print("Error: file(%s) already exists" % (cppName))
         exit(1)
     
-    with open(filename, 'w') as output:
+    if path.isfile(hppName):
+        print("Error: file(%s) already exists" % (hppName))
+        exit(1)
+
+    with open(hppName, 'w') as output:
         output.write('#include "catch.hpp"\n')
-        output.write('#include "./%s.hpp"\n\n' % (argv[1]))
+        output.write('#include "%s.hpp"\n\n' % (argv[1]))
+
+    with open(cppName, 'w') as output:
+        output.write('#include "./%s"\n\n' % (hppName))
         output.write('TEST_CASE("%s", "[%s]") {\n' % (argv[1], argv[2]))
         output.write('}\n')
+
 
