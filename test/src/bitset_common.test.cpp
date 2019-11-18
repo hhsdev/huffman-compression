@@ -1,18 +1,18 @@
 #include "./bitset_common.test.hpp"
 
 TEMPLATE_TEST_CASE("Default constructed Bitset is empty",
-                   "[BitsetCommon], [Bitset32], [DynamicBitset], "
+                   "[BitsetCommon], [DynamicBitset], "
                    "[StaticBitset], [StringViewBitset]",
-                   (DynamicBitset<>), Bitset32, StringViewBitset,
+                   (DynamicBitset<>), StringViewBitset,
                    (StaticBitset<uint64_t>)) {
   TestType bits;
   assertDataAndSizeEquals(bits, "");
 }
 
 TEMPLATE_TEST_CASE("Pushing back bits works as intended",
-                   "[BitsetCommon], [Bitset32], [DynamicBitset], "
+                   "[BitsetCommon], [DynamicBitset], "
                    "[StaticBitset], [StringViewBitset]",
-                   (DynamicBitset<>), Bitset32, StringViewBitset,
+                   (DynamicBitset<>), StringViewBitset,
                    (StaticBitset<uint64_t>)) {
   const std::vector<std::string> testStrings = {"00001111", "10101010",
                                                 "1111000011110000"};
@@ -25,9 +25,9 @@ TEMPLATE_TEST_CASE("Pushing back bits works as intended",
 }
 
 TEMPLATE_TEST_CASE("Incrementing bitset works as intended",
-                   "[BitsetCommon], [Bitset32], [DynamicBitset], "
+                   "[BitsetCommon], [DynamicBitset], "
                    "[StaticBitset], [StringViewBitset]",
-                   (DynamicBitset<>), Bitset32, /*TODO: StringViewBitset*/
+                   (DynamicBitset<>), StringViewBitset,
                    (StaticBitset<uint64_t>)) {
   TestType bits;
 
@@ -42,9 +42,9 @@ TEMPLATE_TEST_CASE("Incrementing bitset works as intended",
 }
 
 TEMPLATE_TEST_CASE("Operator[] querying works as intended",
-                   "[BitsetCommon], [Bitset32], [DynamicBitset], "
+                   "[BitsetCommon], [DynamicBitset], "
                    "[StaticBitset], [StringViewBitset]",
-                   (DynamicBitset<>), Bitset32, StringViewBitset,
+                   (DynamicBitset<>), StringViewBitset,
                    (StaticBitset<uint64_t>)) {
   TestType bits;
   repeatedlyCallPushBack(bits, "101010");
@@ -53,9 +53,9 @@ TEMPLATE_TEST_CASE("Operator[] querying works as intended",
 }
 
 TEMPLATE_TEST_CASE("Operator[] assignment works as intended",
-                   "[BitsetCommon], [Bitset32], [DynamicBitset], "
+                   "[BitsetCommon], [DynamicBitset], "
                    "[StaticBitset], [StringViewBitset]",
-                   (DynamicBitset<>), Bitset32, StringViewBitset,
+                   (DynamicBitset<>), StringViewBitset,
                    (StaticBitset<uint64_t>)) {
   TestType bits;
   repeatedlyCallPushBack(bits, "101010");

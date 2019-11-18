@@ -1,7 +1,6 @@
 #include "catch.hpp"
 #include "base_bitset.hpp"
 #include "dynamic_bitset.hpp"
-#include "bitset_32.hpp"
 #include "static_bitset.hpp"
 #include "string_view_bitset.hpp"
 

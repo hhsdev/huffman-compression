@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
+#include <climits>
 
 #include "./base_bitset.hpp"
-#include "./bitset_32.hpp"
 #include "./static_bitset.hpp"
 #include "./dynamic_bitset.hpp"
 

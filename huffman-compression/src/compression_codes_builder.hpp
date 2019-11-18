@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "./all_bitsets.hpp"
-#include "./bitset_32.hpp"
 #include "./dynamic_bitset.hpp"
 #include "./util.hpp"
 

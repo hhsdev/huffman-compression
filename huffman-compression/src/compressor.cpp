@@ -57,7 +57,7 @@ void Compressor::doBuildCodeTable(const HuffmanTree& tree) {
   // since codes from builder are held in unique_ptrs
   // we need to clone them
   for (int i = 0; i < codeTable.size(); ++i) {
-    codeTable[i].reset(codes[i] ? codes[i]->clone() : new Bitset32());
+    codeTable[i].reset(codes[i] ? codes[i]->clone() : new StaticBitset<>());
   }
   convertToCanonical();
 }
