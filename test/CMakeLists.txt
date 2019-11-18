@@ -7,6 +7,9 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/compressor.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/compressor.test.cpp
 
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/decompressor.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/decompressor.test.cpp
+
 					${CMAKE_CURRENT_SOURCE_DIR}/src/compression_codes_builder.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/huffman_tree.cpp
@@ -15,17 +18,23 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bit_util.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bit_util.test.cpp
 
+					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_common.test.cpp
+
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/reader.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/reader.test.cpp
+
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/bitset_32.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_32.test.cpp
+
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/string_view_bitset.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/string_view_bitset.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/tree_reconstruction.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/tree_reconstruction.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/writer.cpp
-					${CMAKE_SOURCE_DIR}/huffman-compression/src/header.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/writer.test.cpp
 
-					${CMAKE_SOURCE_DIR}/huffman-compression/src/dynamic_bitset.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/dynamic_bitset.test.cpp)
 
 set_target_properties(test_all
