@@ -23,9 +23,6 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/reader.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/reader.test.cpp
 
-					${CMAKE_SOURCE_DIR}/huffman-compression/src/bitset_32.cpp
-					${CMAKE_CURRENT_SOURCE_DIR}/src/bitset_32.test.cpp
-
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/string_view_bitset.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/string_view_bitset.test.cpp
 
