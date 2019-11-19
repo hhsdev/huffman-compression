@@ -1,9 +1,9 @@
 #include "./string_view_bitset.hpp"
 
-StringViewBitset::StringViewBitset(const std::string& str, int _bitSize)
+StringViewBitset::StringViewBitset(const std::string& str, const int _bitSize)
     : view(str), bitSize(_bitSize) {}
 
-StringViewBitset::StringViewBitset(std::string_view _view, int _bitSize)
+StringViewBitset::StringViewBitset(const std::string_view _view, const int _bitSize)
     : view(_view), bitSize(_bitSize) {}
 
 StringViewBitset::StringViewBitset() : view(""), bitSize(0) {}
@@ -13,7 +13,7 @@ void StringViewBitset::clear() {
   bitSize = 0;
 }
 
-unsigned char StringViewBitset::getByte(int index) const {
+unsigned char StringViewBitset::getByte(const int index) const {
   int byteSizeInAdditions = BitUtil::toByteSize(additions.size());
   if (index < byteSizeInAdditions) {
     return additions.getByte(index);
@@ -21,11 +21,11 @@ unsigned char StringViewBitset::getByte(int index) const {
   return view[index - additions.size()];
 }
 
-void StringViewBitset::push_back(bool val) { additions.push_back(val); }
+void StringViewBitset::push_back(const bool val) { additions.push_back(val); }
 
-bool StringViewBitset::operator[](int index) const { return get(index); }
+bool StringViewBitset::operator[](const int index) const { return get(index); }
 
-BaseBitset::reference StringViewBitset::operator[](int index) {
+BaseBitset::reference StringViewBitset::operator[](const int index) {
   return reference(this, index);
 }
 
@@ -39,14 +39,24 @@ std::string StringViewBitset::toString() const {
 
 int StringViewBitset::size() const { return bitSize + additions.size(); }
 
-BaseBitset& StringViewBitset::operator++() { return *this; }
+BaseBitset& StringViewBitset::operator++() {
+  for (int i = 0; i < size(); ++i) {
+    if (get(i) == 1) {
+      unset(i);
+    } else {
+      set(i);
+      break;
+    }
+  }
+  return *this;
+}
 
 BaseBitset* StringViewBitset::clone() const {
   return new StringViewBitset(*this);
 }
 
 // TODO: these three functions are abominations; clean them
-void StringViewBitset::set(int index) {
+void StringViewBitset::set(const int index) {
   if (mapsToAdditions(index)) {
     setOnAdditions(index);
   } else {
@@ -54,7 +64,7 @@ void StringViewBitset::set(int index) {
   }
 }
 
-void StringViewBitset::unset(int index) {
+void StringViewBitset::unset(const int index) {
   if (mapsToAdditions(index)) {
     unsetOnAdditions(index);
   } else {
@@ -62,7 +72,7 @@ void StringViewBitset::unset(int index) {
   }
 }
 
-bool StringViewBitset::get(int index) const {
+bool StringViewBitset::get(const int index) const {
   if (mapsToAdditions(index)) {
     return additions[index];
   } else if (isOverridden(index)) {
@@ -72,25 +82,25 @@ bool StringViewBitset::get(int index) const {
   }
 }
 
-bool StringViewBitset::getFromString(int index) const {
+bool StringViewBitset::getFromString(const int index) const {
   int byteIndex = BitUtil::toByteIndex(index);
   int bitOffset = BitUtil::bitOffset(index);
   unsigned char byte = view[view.size() - byteIndex - 1];
   return BitUtil::nthBit(byte, bitOffset);
 }
 
-void StringViewBitset::setOnString(int index) {
+void StringViewBitset::setOnString(const int index) {
   if (alreadySet(index)) return;
   if (isOverridden(index)) removeOverride(index);
   else override(index);
 }
 
-void StringViewBitset::unsetOnString(int index) {
+void StringViewBitset::unsetOnString(const int index) {
   if (alreadyUnset(index)) return;
   if (isOverridden(index)) removeOverride(index);
   else override(index);
 }
 
-bool StringViewBitset::isOverridden(int index) const {
+bool StringViewBitset::isOverridden(const int index) const {
   return overrides.find(index - additions.size()) != overrides.end();
 }

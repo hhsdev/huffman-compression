@@ -15,14 +15,14 @@
 class StringViewBitset : public BaseBitset {
  public:
   StringViewBitset();
-  StringViewBitset(const std::string& str, int _bitSize);
-  StringViewBitset(std::string_view _view, int _bitSize);
+  StringViewBitset(const std::string& str, const int _bitSize);
+  StringViewBitset(const std::string_view _view, const int _bitSize);
   
-  void push_back(bool val) override;
+  void push_back(const bool val) override;
 
-  unsigned char getByte(int index) const override;
-  bool operator[](int index) const override;
-  reference operator[](int index);
+  unsigned char getByte(const int index) const override;
+  bool operator[](const int index) const override;
+  reference operator[](const int index);
   BaseBitset& operator++() override;
   
   std::string toString() const override;
@@ -32,26 +32,26 @@ class StringViewBitset : public BaseBitset {
   BaseBitset* clone() const;
 
  protected:
-  void set(int index) override;
-  void unset(int index) override;
-  bool get(int index) const override;
+  void set(const int index) override;
+  void unset(const int index) override;
+  bool get(const int index) const override;
 
  private:
-  bool alreadySet(int index) const { return get(index) == 1; }
-  bool alreadyUnset(int index) const { return get(index) == 0; }
+  bool alreadySet(const int index) const { return get(index) == 1; }
+  bool alreadyUnset(const int index) const { return get(index) == 0; }
 
-  bool mapsToAdditions(int index) const { return index < additions.size(); }
+  bool mapsToAdditions(const int index) const { return index < additions.size(); }
 
-  void setOnAdditions(int index) { additions[index] = 1; }
-  void unsetOnAdditions(int index) { additions[index] = 0; }
+  void setOnAdditions(const int index) { additions[index] = 1; }
+  void unsetOnAdditions(const int index) { additions[index] = 0; }
 
-  void setOnString(int index);
-  void unsetOnString(int index);
-  bool getFromString(int index) const;
+  void setOnString(const int index);
+  void unsetOnString(const int index);
+  bool getFromString(const int index) const;
 
-  bool isOverridden(int index) const;
-  void override(int index) { overrides.insert(index - additions.size()); }
-  void removeOverride(int index) { overrides.erase(index - additions.size()); }
+  bool isOverridden(const int index) const;
+  void override(const int index) { overrides.insert(index - additions.size()); }
+  void removeOverride(const int index) { overrides.erase(index - additions.size()); }
 
   std::string_view view;
   int bitSize;
