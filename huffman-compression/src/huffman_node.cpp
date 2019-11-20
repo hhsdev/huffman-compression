@@ -5,7 +5,7 @@
 HuffmanNode::HuffmanNode()
     : left(nullptr), right(nullptr), frequency(-1), ch(-1), height(0) {}
 
-HuffmanNode::HuffmanNode(char ch, int frequency)
+HuffmanNode::HuffmanNode(unsigned char ch, int frequency)
     : left(nullptr), right(nullptr), frequency(frequency), ch(ch), height(0) {}
 
 HuffmanNode::HuffmanNode(HuffmanNode& left, HuffmanNode& right)

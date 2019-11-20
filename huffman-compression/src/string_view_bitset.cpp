@@ -72,23 +72,6 @@ void StringViewBitset::unset(const int index) {
   }
 }
 
-bool StringViewBitset::get(const int index) const {
-  if (mapsToAdditions(index)) {
-    return additions[index];
-  } else if (isOverridden(index)) {
-    return !getFromString(index - additions.size());
-  } else {
-    return getFromString(index - additions.size());
-  }
-}
-
-bool StringViewBitset::getFromString(const int index) const {
-  int byteIndex = BitUtil::toByteIndex(index);
-  int bitOffset = BitUtil::bitOffset(index);
-  unsigned char byte = view[view.size() - byteIndex - 1];
-  return BitUtil::nthBit(byte, bitOffset);
-}
-
 void StringViewBitset::setOnString(const int index) {
   if (alreadySet(index)) return;
   if (isOverridden(index)) removeOverride(index);
@@ -101,6 +84,3 @@ void StringViewBitset::unsetOnString(const int index) {
   else override(index);
 }
 
-bool StringViewBitset::isOverridden(const int index) const {
-  return overrides.find(index - additions.size()) != overrides.end();
-}

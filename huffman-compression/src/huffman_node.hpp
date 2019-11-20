@@ -4,7 +4,7 @@
 class HuffmanNode {
  public:
   HuffmanNode();
-  HuffmanNode(char ch, int frequency);
+  HuffmanNode(unsigned char ch, int frequency);
   HuffmanNode(HuffmanNode& left, HuffmanNode& right);
   HuffmanNode(const HuffmanNode& other)
 	: left(other.left),

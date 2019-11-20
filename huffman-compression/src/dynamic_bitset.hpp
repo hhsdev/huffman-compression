@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cassert>
 #include <deque>
 #include <vector>
 #include <iostream>
@@ -37,7 +37,6 @@ class DynamicBitset : public BaseBitset {
   DynamicBitset() : BaseBitset(), blocks(), bufferBlock(0), bufferBlockSize(0) {}
   
   void push_back(bool val) override {
-	const int sz = size();
 	if (bufferBlockSize == sizeof(bufferBlock) * CHAR_BIT) {
 	  blocks.push_back(bufferBlock);
 	  bufferBlock = val;

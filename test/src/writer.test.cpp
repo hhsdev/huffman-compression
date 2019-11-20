@@ -33,9 +33,10 @@ TEST_CASE("writer", "[Writer]") {
   output.read(dataStartIndicator, 4);
   REQUIRE(std::string(dataStartIndicator) == std::string("DATA"));
 
-  uint32_t sizeInByte, padding;
+  uint32_t sizeInByte;
+  unsigned char padding;
   output.read(reinterpret_cast<char*>(&sizeInByte), sizeof(sizeInByte));
   output.read(reinterpret_cast<char*>(&padding), sizeof(padding));
 
-  //REQUIRE((sizeInByte * CHAR_BIT) - padding == compressedBitData.size());
+  REQUIRE((sizeInByte * CHAR_BIT) - padding == compressedBitData.size());
 }

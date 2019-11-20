@@ -25,10 +25,10 @@ HuffmanTree::PriorityQueue HuffmanTree::makeNodesFromChars(
 }
 
 HuffmanTree::node_t *HuffmanTree::buildTree(PriorityQueue &nodes) {
-  while (nodes.size() > 1) {
-    node_t *leftChild = new node_t(*nodes.top());
+  while (nodes.size() != 1) {
+    node_t *leftChild = nodes.top();
     nodes.pop();
-    node_t *rightChild = new node_t(*nodes.top());
+    node_t *rightChild = nodes.top();
     nodes.pop();
     nodes.push(new node_t(*leftChild, *rightChild));
   }
@@ -46,10 +46,10 @@ void HuffmanTree::recursiveDelete(const node_t *node) {
   }
   recursiveDelete(node->getLeft());
   recursiveDelete(node->getRight());
+  delete node;
 }
 
 HuffmanTree::~HuffmanTree() {
-  node_t *iterNode = root;
   recursiveDelete(root);
 }
 

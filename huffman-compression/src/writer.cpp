@@ -68,12 +68,13 @@ std::string Writer::createRow(unsigned char c, const BaseBitset& code) {
 void Writer::writeDataChunkSize(std::ostream& output) {
   uint32_t bitSize = compressor.getBits().size();
   uint32_t byteSize = BitUtil::toByteSize(bitSize);
-  output.write(reinterpret_cast<const char*>(&byteSize), sizeof(byteSize));
+  output.write(reinterpret_cast<char*>(&byteSize), sizeof(byteSize));
 }
+
 void Writer::writeDataPaddingSize(std::ostream& output) {
-  uint32_t padding = CHAR_BIT - compressor.getBits().size() % CHAR_BIT;
+  unsigned char padding = CHAR_BIT - compressor.getBits().size() % CHAR_BIT;
   if (padding == CHAR_BIT) padding = 0;
-  output.write(reinterpret_cast<const char*>(&padding), sizeof(padding));
+  output.write(reinterpret_cast<char*>(&padding), sizeof(padding));
 }
 
 void Writer::writeCompressedData(std::ostream& output) {

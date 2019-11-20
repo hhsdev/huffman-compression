@@ -24,14 +24,14 @@ template <typename FrequencyTree>
 const typename CompressionCodesBuilder<FrequencyTree>::CompressionCodes&
 CompressionCodesBuilder<FrequencyTree>::buildFrom(const FrequencyTree& tree) {
 
-  auto genesisBitset = getLargeEnoughBitset(tree.getHeight());
+  std::unique_ptr<BaseBitset> genesisBitset(getLargeEnoughBitset(tree.getHeight()));
 
   if (tree.getRoot()->getLeft() != nullptr)
-    accumulateCodeWords(tree.getRoot()->getLeft(), genesisBitset->clone(),
+    accumulateCodeWords(tree.getRoot()->getLeft(), genesisBitset.get(),
                         true);
 
   if (tree.getRoot()->getRight() != nullptr)
-    accumulateCodeWords(tree.getRoot()->getRight(), genesisBitset->clone(),
+    accumulateCodeWords(tree.getRoot()->getRight(), genesisBitset.get(),
                         false);
 
   return compressionCodes;
@@ -44,9 +44,9 @@ void CompressionCodesBuilder<FrequencyTree>::accumulateCodeWords(
   current->push_back(isLeft ? 0 : 1);
 
   if (node->hasChar()) {
+	// every node holding a character is a leaf node
+  	// so no need to go further
     compressionCodes[node->getChar()].reset(current);
-    // every node holding a character is a leaf node
-    // so no need to go further
     return;
   }
 

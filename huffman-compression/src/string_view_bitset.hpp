@@ -62,3 +62,28 @@ class StringViewBitset : public BaseBitset {
   DynamicBitset<> additions;
   std::set<int> overrides;
 };
+
+inline bool StringViewBitset::isOverridden(const int index) const {
+  if (overrides.empty()) return false;
+  return overrides.find(index - additions.size()) != overrides.end();
+}
+
+inline bool StringViewBitset::getFromString(const int index) const {
+  int byteIndex = BitUtil::toByteIndex(index);
+  int bitOffset = BitUtil::bitOffset(index);
+  unsigned char byte = view[view.size() - byteIndex - 1];
+  return BitUtil::nthBit(byte, bitOffset);
+}
+
+inline bool StringViewBitset::get(const int index) const {
+  return getFromString(index);
+  if (mapsToAdditions(index)) {
+    return additions[index];
+  } else if (isOverridden(index)) {
+    return !getFromString(index - additions.size());
+  } else {
+    return getFromString(index - additions.size());
+  }
+}
+
+

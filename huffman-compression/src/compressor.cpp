@@ -15,10 +15,8 @@ const BaseBitset& Compressor::getCode(const unsigned char ch) const {
 }
 
 void Compressor::compress(const std::string& input) {
-  for (const char ch : input) {
+  for (const unsigned char ch : input) {
     const auto& code = *codeTable[ch];
-    // TODO: Replace this with dynamic bitset
-    uint32_t bits = 0;
     for (int i = code.size() - 1; i >= 0; --i) {
       compressedBits.push_back(code[i]);
     }
@@ -26,8 +24,8 @@ void Compressor::compress(const std::string& input) {
 }
 
 void Compressor::countCharacterFrequencies(const std::string& input) {
-  characterFrequencies = {};
-  for (char c : input) {
+  characterFrequencies = { 0 };
+  for (unsigned char c : input) {
     characterFrequencies[c] += 1;
   }
 }
