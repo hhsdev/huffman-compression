@@ -9,7 +9,11 @@ add_executable(test_all ${CMAKE_CURRENT_SOURCE_DIR}/src/main.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/command_line.cpp
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/flag.cpp
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/string_arg.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/command_line.test.cpp
+
+					${CMAKE_SOURCE_DIR}/huffman-compression/src/string_arg.cpp
+					${CMAKE_CURRENT_SOURCE_DIR}/src/string_arg.test.cpp
 
 					${CMAKE_SOURCE_DIR}/huffman-compression/src/decompressor.cpp
 					${CMAKE_CURRENT_SOURCE_DIR}/src/decompressor.test.cpp

@@ -1,4 +1,5 @@
 #include "./command_line.test.hpp"
+#include "string_arg.hpp"
 
 TEST_CASE("Flags get updated after parsing", "[CommandLine]") {
   CommandLine commandLine;
@@ -61,4 +62,17 @@ TEST_CASE("xorAdd works as intended", "[CommandLine]") {
     REQUIRE_THROWS_AS(commandLine.parse(argc, const_cast<char**>(argv)),
                       std::runtime_error);
   }
+}
+
+TEST_CASE("StringArgs", "[CommandLine]") {
+  CommandLine commandLine;
+
+  StringArg s("-s", "--string", "");
+  commandLine.add(s);
+
+  int argc = 3;
+  const char* argv[] = {"executable", "-s", "some string"};
+  commandLine.parse(argc, const_cast<char**>(argv));
+
+  REQUIRE(s.getVal() == "some string");
 }
