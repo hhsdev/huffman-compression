@@ -76,7 +76,6 @@ inline bool StringViewBitset::getFromString(const int index) const {
 }
 
 inline bool StringViewBitset::get(const int index) const {
-  return getFromString(index);
   if (mapsToAdditions(index)) {
     return additions[index];
   } else if (isOverridden(index)) {
