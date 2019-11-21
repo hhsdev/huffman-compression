@@ -28,3 +28,23 @@ TEST_CASE("push_back works as intended", "[DynamicBitset]") {
   	assertDataAndSizeEquals(bits, testString);
   }
 }
+
+
+TEST_CASE("Testing about getByte", "[DynamicBitset]") {
+  //                       "10100000 11111111 00000000 01010101 10101010 00000000 11111111 01010101 10101010 000";
+  std::string testString = "101 00001111 11111000 00000010 10101101 01010000 00000111 11111010 10101101 01010000";
+
+  DynamicBitset<> bits;
+  repeatedlyCallPushBack(bits, testString);
+  REQUIRE(int(bits.getByte(0)) == 0b01010000);
+  REQUIRE(int(bits.getByte(1)) == 0b10101101);
+  REQUIRE(int(bits.getByte(2)) == 0b11111010);
+  REQUIRE(int(bits.getByte(3)) == 0b00000111);
+  REQUIRE(int(bits.getByte(4)) == 0b01010000);
+  REQUIRE(int(bits.getByte(5)) == 0b10101101);
+  REQUIRE(int(bits.getByte(6)) == 0b00000010);
+  REQUIRE(int(bits.getByte(7)) == 0b11111000);
+  REQUIRE(int(bits.getByte(8)) == 0b00001111);
+  REQUIRE(int(bits.getByte(9)) == 0b00000101);
+
+}
