@@ -41,8 +41,8 @@ TEST_CASE("xorAdd works as intended", "[CommandLine]") {
     commandLine.parse(argc, const_cast<char**>(argv));
 	REQUIRE(bool(a) == false);
 	REQUIRE(bool(b) == true);
-	REQUIRE(a.isDoneProcessing() == false);
-	REQUIRE(b.isDoneProcessing() == false);
+	REQUIRE(a.isResolved() == false);
+	REQUIRE(b.isResolved() == false);
   }
 
   SECTION("Having one flag sets the concerned flag and unsets the other") {
@@ -51,8 +51,8 @@ TEST_CASE("xorAdd works as intended", "[CommandLine]") {
     commandLine.parse(argc, const_cast<char**>(argv));
 	REQUIRE(bool(a) == true);
 	REQUIRE(bool(b) == false);
-	REQUIRE(a.isDoneProcessing() == true);
-	REQUIRE(b.isDoneProcessing() == true);
+	REQUIRE(a.isResolved() == true);
+	REQUIRE(b.isResolved() == true);
 	
   }
 
@@ -64,7 +64,7 @@ TEST_CASE("xorAdd works as intended", "[CommandLine]") {
   }
 }
 
-TEST_CASE("StringArgs", "[CommandLine]") {
+TEST_CASE("Usage with string args works", "[CommandLine]") {
   CommandLine commandLine;
 
   StringArg s("-s", "--string", "");
@@ -74,5 +74,5 @@ TEST_CASE("StringArgs", "[CommandLine]") {
   const char* argv[] = {"executable", "-s", "some string"};
   commandLine.parse(argc, const_cast<char**>(argv));
 
-  REQUIRE(s.getVal() == "some string");
+  REQUIRE(s.getValue() == "some string");
 }

@@ -10,6 +10,10 @@ class CommandLine {
   void xorAdd(Arg& a, Arg& b);
  private:
   std::vector<Arg*> args;
-  std::vector<Arg*> xorArgsA;
-  std::vector<Arg*> xorArgsB;
+  std::vector<std::pair<Arg*, Arg*>> xorArgs;
+  
+  void passToNormalArguments(int index);
+  void passToXoredArguments(int index);
+  int argument_count;
+  char** argument_values;
 };

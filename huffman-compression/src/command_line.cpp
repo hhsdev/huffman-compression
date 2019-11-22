@@ -1,38 +1,46 @@
 #include <stdexcept>
 #include "./command_line.hpp"
 
-void CommandLine::parse(int argc, char** argv) {
-  for (int i = 0; i < argc; ++i) {
-    for (Arg* arg : args) {
-      if (arg->canProcess(argv[i])) {
-        arg->process(i, argc, argv);
-        break;
-      }
-    }
-    for (int j = 0; j < xorArgsA.size(); ++j) {
-      auto& argA = *xorArgsA[j];
-      auto& argB = *xorArgsB[j];
-      if (argA.canProcess(argv[i])) {
-        if (argB.isDoneProcessing()) {
-          throw std::runtime_error("Supplying both flags");
-        }
-        argA.process(i, argc, argv);
-        argB.xorProcess(i, argc, argv);
-      }
-      if (argB.canProcess(argv[i])) {
-        if (argA.isDoneProcessing()) {
-          throw std::runtime_error("Supplying both flags");
-        }
-        argB.process(i, argc, argv);
-        argA.xorProcess(i, argc, argv);
-      }
+void CommandLine::passToNormalArguments(int index) {
+  for (Arg* arg : args) {
+    if (arg->canProcess(argument_values[index])) {
+      arg->process(index, argument_count, argument_values);
+	  return;
     }
   }
 }
+
+void CommandLine::passToXoredArguments(int index) {
+  for (auto [argA, argB] : xorArgs) {
+    if (argA->canProcess(argument_values[index])) {
+      if (argB->isResolved()) {
+        throw std::runtime_error("Both flags are supplied");
+      }
+      argA->process(index, argument_count, argument_values);
+      argB->xorProcess();
+    }
+    if (argB->canProcess(argument_values[index])) {
+      if (argA->isResolved()) {
+        throw std::runtime_error("Both flags are supplied");
+      }
+      argB->process(index, argument_count, argument_values);
+      argA->xorProcess();
+    }
+  }
+}
+
+void CommandLine::parse(int argc, char** argv) {
+  argument_count = argc;
+  argument_values = argv;
+  for (int i = 0; i < argc; ++i) {
+	passToNormalArguments(i);
+	passToXoredArguments(i);
+  }
+}
+
 void CommandLine::add(Arg& arg) { args.push_back(&arg); }
 
 void CommandLine::xorAdd(Arg& a, Arg& b) {
-  xorArgsA.push_back(&a);
-  xorArgsB.push_back(&b);
+  xorArgs.emplace_back(&a, &b);
 }
 

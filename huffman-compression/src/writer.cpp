@@ -79,8 +79,5 @@ void Writer::writeDataPaddingSize(std::ostream& output) {
 
 void Writer::writeCompressedData(std::ostream& output) {
   const auto& bits = compressor.getBits();
-  int byteSize = BitUtil::toByteSize(bits.size());
-  for (int i = byteSize - 1; i >= 0; --i) {
-	output << bits.getByte(i);
-  }
+  output << bits;
 }

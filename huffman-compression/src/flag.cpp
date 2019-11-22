@@ -1,23 +1,19 @@
 #include "./flag.hpp"
 
 Flag::Flag(const std::string& shortFlag, const std::string& longFlag,
-           const bool defaultVal)
-    : Arg(), sFlag(shortFlag), lFlag(longFlag), val(defaultVal) {}
+           const bool defaultValue)
+    : Arg(shortFlag, longFlag), value(defaultValue) {}
 
-void Flag::set(bool newVal) { val = newVal; }
+void Flag::set(bool newValue) { value = newValue; }
 
-Flag::operator bool() { return val; }
-
-bool Flag::canProcess(const std::string& arg) const {
-  return arg == sFlag || arg == lFlag;
-}
+Flag::operator bool() { return value; }
 
 void Flag::process(int, int, char**) {
-  val = true;
-  processed = true;
+  value = true;
+  resolved = true;
 }
 
-void Flag::xorProcess(int index, int argc, char** argv) {
-  val = false;
-  processed = true;
+void Flag::xorProcess() {
+  value = false;
+  resolved = true;
 }

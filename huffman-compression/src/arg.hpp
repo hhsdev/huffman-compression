@@ -1,11 +1,22 @@
 #pragma once
-
+#include <string>
 class Arg {
  public:
-  Arg() = default;
-  virtual bool canProcess(const std::string& flag) const = 0;
+  Arg(const std::string& shortFlag, const std::string& longFlag)
+      : shortFlag(shortFlag), longFlag(longFlag) {}
+  virtual bool canProcess(const std::string& flag) const {
+	flag == shortFlag || flag == longFlag;
+  }
   virtual void process(int index, int argc, char** argv) = 0;
-  virtual void xorProcess(int index, int argc, char** argv) = 0;
-  virtual bool isDoneProcessing() const = 0;
+  virtual void xorProcess() = 0;
+
+  virtual void resolve() { resolved = true; }
+  virtual bool isResolved() const { return resolved; }
   virtual ~Arg() = default;
+
+ protected:
+  std::string shortFlag;
+  std::string longFlag;
+
+  bool resolved = false;
 };
