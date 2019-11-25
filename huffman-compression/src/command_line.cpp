@@ -1,6 +1,15 @@
 #include <stdexcept>
 #include "./command_line.hpp"
 
+void CommandLine::parse(int argc, char** argv) {
+  argument_count = argc;
+  argument_values = argv;
+  for (int i = 0; i < argument_count; ++i) {
+	passToNormalArguments(i);
+	passToXoredArguments(i);
+  }
+}
+
 void CommandLine::passToNormalArguments(int index) {
   for (Arg* arg : args) {
     if (arg->canProcess(argument_values[index])) {
@@ -26,15 +35,6 @@ void CommandLine::passToXoredArguments(int index) {
       argB->process(index, argument_count, argument_values);
       argA->xorProcess();
     }
-  }
-}
-
-void CommandLine::parse(int argc, char** argv) {
-  argument_count = argc;
-  argument_values = argv;
-  for (int i = 0; i < argc; ++i) {
-	passToNormalArguments(i);
-	passToXoredArguments(i);
   }
 }
 
