@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+#include <cmath>
 #include <climits>
 #include <deque>
 #include <iostream>
@@ -159,7 +160,11 @@ class DynamicBitset : public BaseBitset {
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const DynamicBitset<T>& bits) {
-  for (T b : bits.blocks) {
-	os.write(reinterpret_cast<char*>(&b), sizeof(T));
+  int byteSize = std::ceil(bits.size() / (double)CHAR_BIT);
+  for (int i = byteSize - 1; i >= 0; --i) {
+	os << bits.getByte(i);
   }
+  //for (T b : bits.blocks) {
+  //  os.write(reinterpret_cast<char*>(&b), sizeof(T));
+  //}
 }

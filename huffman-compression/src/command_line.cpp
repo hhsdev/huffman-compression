@@ -21,14 +21,15 @@ void CommandLine::passToNormalArguments(int index) {
 
 void CommandLine::passToXoredArguments(int index) {
   for (auto [argA, argB] : xorArgs) {
-    if (argA->canProcess(argument_values[index])) {
+	const std::string currArgument = argument_values[index];
+    if (argA->canProcess(currArgument)) {
       if (argB->isResolved()) {
         throw std::runtime_error("Both flags are supplied");
       }
       argA->process(index, argument_count, argument_values);
       argB->xorProcess();
     }
-    if (argB->canProcess(argument_values[index])) {
+    if (argB->canProcess(currArgument)) {
       if (argA->isResolved()) {
         throw std::runtime_error("Both flags are supplied");
       }

@@ -13,8 +13,6 @@ class Reader {
 
  public:
   Reader() = default;
-  void write(std::ostream& output) {}
-
   std::string decompress(std::istream& source) {
     std::string buffer = getContents(source);
     if (!isCorrectType(buffer)) throw std::runtime_error("Wrong file type");

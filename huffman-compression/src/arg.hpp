@@ -4,8 +4,8 @@ class Arg {
  public:
   Arg(const std::string& shortFlag, const std::string& longFlag)
       : shortFlag(shortFlag), longFlag(longFlag) {}
-  virtual bool canProcess(const std::string& flag) const {
-	flag == shortFlag || flag == longFlag;
+  bool canProcess(const std::string& flag) const {
+	return flag == shortFlag || flag == longFlag;
   }
   virtual void process(int index, int argc, char** argv) = 0;
   virtual void xorProcess() = 0;

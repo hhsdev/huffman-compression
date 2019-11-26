@@ -12,11 +12,13 @@ void Config::update(int argc, char** argv) {
   cmd.xorAdd(compressFlag, decompressFlag);
   cmd.parse(argc, argv);
 
-  if (!outputArg.getValue().empty()) {
-    output_file = outputArg.getValue();
-  }
   if (!inputArg.getValue().empty()) {
     input_file = inputArg.getValue();
+  }
+  if (!outputArg.getValue().empty()) {
+    output_file = outputArg.getValue();
+  } else {
+    output_file = input_file + ".out";
   }
   if (decompressFlag)
     setMode(DECOMPRESS);
