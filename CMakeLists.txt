@@ -29,8 +29,10 @@ if(CATCH STREQUAL "CATCH-NOTFOUND")
         "and put it into ${PROJECT_SOURCE_DIR}/include")
   endif()
 endif()
-option(ENABLE_IPO "Enables Interprocedural optimization" ON)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(ENABLE_IPO "Enables Interprocedural optimization" ON)
 if(ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result OUTPUT output)
