@@ -33,7 +33,3 @@ target_include_directories(hc
 	PUBLIC
 	${PARENT_DIR}/include
 	${PARENT_DIR}/huffman-compression/src)
-
-target_compile_options(hc PRIVATE
-	$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-		-g -O2 -fsanitize=leak>)
