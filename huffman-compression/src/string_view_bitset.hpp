@@ -30,7 +30,8 @@ class StringViewBitset : public BaseBitset {
 
   void clear() override;
   BaseBitset* clone() const;
-
+	
+	virtual ~StringViewBitset() = default;
  protected:
   void set(const int index) override;
   void unset(const int index) override;
@@ -76,6 +77,8 @@ inline bool StringViewBitset::getFromString(const int index) const {
 }
 
 inline bool StringViewBitset::get(const int index) const {
+	//TODO: Make a constant version of StringViewBitset 
+	// so that we don't have to bother with all these checks
   if (mapsToAdditions(index)) {
     return additions[index];
   } else if (isOverridden(index)) {
@@ -84,5 +87,3 @@ inline bool StringViewBitset::get(const int index) const {
     return getFromString(index - additions.size());
   }
 }
-
-
