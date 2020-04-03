@@ -1,6 +1,6 @@
 build
 include/*
 *.swp
-
+bin/
 DEV_ALIASES
 
