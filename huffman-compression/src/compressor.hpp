@@ -16,6 +16,7 @@ class Compressor {
   int getFrequency(const char ch) const;
 
   DynamicBitset compress(const std::string& input);
+
   void countCharacterFrequencies(const std::string& input);
   void loadCompressionCodes();
  private:

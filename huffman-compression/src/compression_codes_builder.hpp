@@ -7,25 +7,26 @@
 #include "./dynamic_bitset.hpp"
 #include "./util.hpp"
 
-template <typename FrequencyTree>
+template <typename Tree>
 class CompressionCodesBuilder {
  public:
   using CompressionCodes = Huffman::CharSizedArray<std::unique_ptr<BaseBitset>>;
-  using node_t = typename FrequencyTree::node_t;
+  using node_t = typename Tree::node_t;
 
-  const CompressionCodes& buildFrom(const FrequencyTree& tree);
+  const CompressionCodes& buildFrom(const Tree& tree);
   const CompressionCodes& getArray() const { return compressionCodes; }
 
  private:
   CompressionCodes compressionCodes;
-  BaseBitset* chooseAppropriateBitset(const FrequencyTree& tree) const;
+  BaseBitset* chooseAppropriateBitset(const Tree& tree) const;
   void accumulateCodeWords(const node_t* node, BaseBitset* parent, bool isLeft);
 };
 
-template <typename FrequencyTree>
-const typename CompressionCodesBuilder<FrequencyTree>::CompressionCodes&
-CompressionCodesBuilder<FrequencyTree>::buildFrom(const FrequencyTree& tree) {
+template <typename Tree>
+const typename CompressionCodesBuilder<Tree>::CompressionCodes&
+CompressionCodesBuilder<Tree>::buildFrom(const Tree& tree) {
   std::unique_ptr<BaseBitset> baseBitset(chooseAppropriateBitset(tree));
+
   if (tree.getRoot()->getLeft() != nullptr)
     accumulateCodeWords(tree.getRoot()->getLeft(), baseBitset->clone(), true);
 
@@ -34,9 +35,10 @@ CompressionCodesBuilder<FrequencyTree>::buildFrom(const FrequencyTree& tree) {
   return compressionCodes;
 }
 
-template <typename FrequencyTree>
-void CompressionCodesBuilder<FrequencyTree>::accumulateCodeWords(
-    const node_t* node, BaseBitset* parent, bool isLeft) {
+template <typename Tree>
+void CompressionCodesBuilder<Tree>::accumulateCodeWords(const node_t* node,
+                                                        BaseBitset* parent,
+                                                        bool isLeft) {
   BaseBitset* current = parent->clone();
   current->push_back(isLeft ? 0 : 1);
 
@@ -47,17 +49,19 @@ void CompressionCodesBuilder<FrequencyTree>::accumulateCodeWords(
     return;
   }
 
-  if (node->getLeft()) accumulateCodeWords(node->getLeft(), current, true);
-  if (node->getRight()) accumulateCodeWords(node->getRight(), current, false);
+  if (node->getLeft())
+    accumulateCodeWords(node->getLeft(), current, true);
+  if (node->getRight())
+    accumulateCodeWords(node->getRight(), current, false);
   delete current;
 }
 
-template <typename FrequencyTree>
-BaseBitset* CompressionCodesBuilder<FrequencyTree>::chooseAppropriateBitset(
-    const FrequencyTree& tree) const {
+template <typename Tree>
+BaseBitset* CompressionCodesBuilder<Tree>::chooseAppropriateBitset(
+    const Tree& tree) const {
   if (tree.getHeight() <= 32)
-	return new Bitset32();
+    return new Bitset32();
   else
-	return new DynamicBitset();
+    return new DynamicBitset();
 }
 #endif

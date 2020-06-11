@@ -1,6 +1,6 @@
+#include <cmath>
 #include "./compression_codes_builder.hpp"
 #include "catch.hpp"
-#include <cmath>
 
 class MockNode {
  public:
@@ -10,7 +10,7 @@ class MockNode {
         left(nullptr),
         right(nullptr),
         height(0) {
-	height = calculateHeight();
+    height = calculateHeight();
   }
 
   bool hasChar() const { return value >= 0; }
@@ -27,21 +27,21 @@ class MockNode {
   const MockNode* getRight() const { return right; }
 
   void setLeft(MockNode* node) {
-	left = node;
-	height = calculateHeight();
+    left = node;
+    height = calculateHeight();
   }
-  void setRight(MockNode* node) { 
-	right = node;
-	height = calculateHeight();
+  void setRight(MockNode* node) {
+    right = node;
+    height = calculateHeight();
   }
 
   int getHeight() const { return height; }
 
  private:
   int calculateHeight() const {
-	int leftHeight = left ? left->height : -1;
-	int rightHeight = right ? right->height : -1;
-	return std::max(leftHeight, rightHeight) + 1;
+    int leftHeight = left ? left->height : -1;
+    int rightHeight = right ? right->height : -1;
+    return std::max(leftHeight, rightHeight) + 1;
   }
   int frequency;
   char value;
@@ -57,6 +57,7 @@ class MockTree {
   MockNode* getRoot() { return root; }
   const MockNode* getRoot() const { return root; }
   int getHeight() const { return root->getHeight(); }
+
  private:
   MockNode* root;
 };
@@ -71,14 +72,19 @@ TEST_CASE("CompressionCodesBuilder", "[CompressionCodesBuilder]") {
    *      (a)   (b)
    */
   MockNode a(1, 'a'), b(2, 'b'), c(3, 'c');
+
   MockNode aPlusB(a.getFrequency() + b.getFrequency(), -1);
   MockNode root(aPlusB.getFrequency() + c.getFrequency(), -1);
+
   aPlusB.setLeft(&a);
   aPlusB.setRight(&b);
+
   root.setLeft(&aPlusB);
   root.setRight(&c);
+
   MockTree tree(&root);
-  // test for mock objects
+  
+  // Assert that the tree is set up correctly
   REQUIRE(a.getChar() == 'a');
   REQUIRE(b.getChar() == 'b');
   REQUIRE(c.getChar() == 'c');
@@ -88,7 +94,7 @@ TEST_CASE("CompressionCodesBuilder", "[CompressionCodesBuilder]") {
   REQUIRE(tree.getRoot()->getRight() == &c);
   REQUIRE(tree.getRoot()->getLeft()->getLeft() == &a);
   REQUIRE(tree.getRoot()->getLeft()->getRight() == &b);
-
+  
   CompressionCodesBuilder<MockTree> builder;
 
   const auto& codeWordArray = builder.buildFrom(tree);
