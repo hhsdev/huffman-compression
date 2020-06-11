@@ -5,7 +5,7 @@
 #include "huffman_tree.hpp"
 
 TEST_CASE("HuffmanTree", "[HuffmanTree]") {
-  Huffman::CharSizedArray<int> charFrequencies = {};
+  Huffman::CharSizedArray<uint32_t> charFrequencies = {};
   int aFrequency = 1, bFrequency = 2, cFrequency = 3;
   charFrequencies['a'] = aFrequency;
   charFrequencies['b'] = bFrequency;

@@ -2,4 +2,6 @@ build
 test/bin/
 include/*
 *.swp
+bin/
+DEV_ALIASES
 
