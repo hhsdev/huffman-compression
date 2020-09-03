@@ -10,7 +10,7 @@
 // A class where you can pass in a string and view it like a bitset.
 //
 // The class guarantees that the string you pass in will not be modified.
-// Indeed, its main purpose is read only. While all operations from
+// Its main purpose is read only. While write operations from
 // BaseBitset interface are provided, they are likely slow.
 class StringViewBitset : public BaseBitset {
  public:
