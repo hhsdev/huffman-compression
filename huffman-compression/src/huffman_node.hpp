@@ -17,7 +17,7 @@ class HuffmanNode {
 
   bool hasChar() const { return ch >= 0; }
   short getChar() const { return ch; }
-  short setChar(unsigned char newCh) { ch = newCh; }
+  void setChar(unsigned char newCh) { ch = newCh; }
   int getFrequency() const { return frequency; }
   int getHeight() const { return height; }
 
