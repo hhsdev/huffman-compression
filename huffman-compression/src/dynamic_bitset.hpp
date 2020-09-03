@@ -1,7 +1,7 @@
 #pragma once
 #include <cassert>
-#include <cmath>
 #include <climits>
+#include <cmath>
 #include <deque>
 #include <iostream>
 #include <vector>
@@ -35,7 +35,8 @@ template <typename Block = uint64_t>
 class DynamicBitset : public BaseBitset {
  public:
   template <typename T>
-  friend std::ostream& operator<<(std::ostream& os, const DynamicBitset<T>& bits);
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const DynamicBitset<T>& bits);
 
   using block_type = Block;
   DynamicBitset()
@@ -58,7 +59,8 @@ class DynamicBitset : public BaseBitset {
 
   BaseBitset& operator++() override {
     ++bufferBlock;
-    if (!isPowerOf2(bufferBlock)) return *this;
+    if (!isPowerOf2(bufferBlock))
+      return *this;
     Block mask = ~Block(0) >> (sizeof(Block) * CHAR_BIT - bufferBlockSize);
     bufferBlock &= mask;
     const int numBlocks = blocks.size();
@@ -162,9 +164,10 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const DynamicBitset<T>& bits) {
   int byteSize = std::ceil(bits.size() / (double)CHAR_BIT);
   for (int i = byteSize - 1; i >= 0; --i) {
-	os << bits.getByte(i);
+    os << bits.getByte(i);
   }
-  //for (T b : bits.blocks) {
+  return os;
+  // for (T b : bits.blocks) {
   //  os.write(reinterpret_cast<char*>(&b), sizeof(T));
   //}
 }
