@@ -1,6 +1,7 @@
 #pragma once
 #include <string_view>
 #include <cmath>
+#include <unordered_set>
 #include <set>
 
 #include "./base_bitset.hpp"
@@ -61,7 +62,7 @@ class StringViewBitset : public BaseBitset {
   // Size incrementing changes are kept in additions object
   // whereas changes to the string data are kept in overrides object.
   DynamicBitset<> additions;
-  std::set<int> overrides;
+  std::unordered_set<int> overrides;
 };
 
 inline bool StringViewBitset::isOverridden(const int index) const {
@@ -79,11 +80,12 @@ inline bool StringViewBitset::getFromString(const int index) const {
 inline bool StringViewBitset::get(const int index) const {
 	//TODO: Make a constant version of StringViewBitset 
 	// so that we don't have to bother with all these checks
-  if (mapsToAdditions(index)) {
-    return additions[index];
-  } else if (isOverridden(index)) {
-    return !getFromString(index - additions.size());
-  } else {
-    return getFromString(index - additions.size());
-  }
+  return getFromString(index);
+  //if (mapsToAdditions(index)) {
+  //  return additions[index];
+  //} else if (isOverridden(index)) {
+  //  return !getFromString(index - additions.size());
+  //} else {
+  //  return getFromString(index - additions.size());
+  //}
 }

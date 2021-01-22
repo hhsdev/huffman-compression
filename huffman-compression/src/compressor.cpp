@@ -24,7 +24,7 @@ void Compressor::compress(const std::string& input) {
 }
 
 void Compressor::countCharacterFrequencies(const std::string& input) {
-  characterFrequencies = { 0 };
+  characterFrequencies = {0};
   for (unsigned char c : input) {
     characterFrequencies[c] += 1;
   }
@@ -35,7 +35,8 @@ void Compressor::buildCodeTable(const std::string& input) {
   doBuildCodeTable();
 }
 
-void Compressor::buildCodeTable(const Huffman::CharSizedArray<uint32_t>& frequencies) {
+void Compressor::buildCodeTable(
+    const Huffman::CharSizedArray<uint32_t>& frequencies) {
   characterFrequencies = frequencies;
   doBuildCodeTable();
 }
@@ -59,16 +60,20 @@ void Compressor::doBuildCodeTable(const HuffmanTree& tree) {
   }
   convertToCanonical();
 }
+
 void Compressor::convertToCanonical() {
-  std::vector<unsigned char> indicesIntoCompressionCodes;
+  std::vector<uint8_t> bytesPresentInInput;
 
-  for (int i = 0; i < codeTable.size(); ++i) {
-    if (codeTable[i] != nullptr && codeTable[i]->size() > 0) {
-      indicesIntoCompressionCodes.push_back(i);
-    }
+  for (auto byte : indices(codeTable)) {
+    if (codeTable.exists(byte))
+      bytesPresentInInput.push_back(i);
   }
+  // for (uint8_t byte = 0; byte < codeTable.size(); ++byte) {
+  //  // if (codeTable[i] != nullptr && codeTable[i]->size() > 0) {
+  //  // bytesPresentInInput.push_back(i);
+  //}
 
-  auto custom_sort = [this](unsigned char a, unsigned char b) -> bool {
+  auto sizewise_then_valuewise = [this](uint8_t a, uint8_t b) -> bool {
     if (codeTable[a]->size() < codeTable[b]->size())
       return true;
     else if (codeTable[a]->size() > codeTable[b]->size())
@@ -76,13 +81,15 @@ void Compressor::convertToCanonical() {
     return (a < b ? true : false);
   };
 
-  std::sort(indicesIntoCompressionCodes.begin(),
-            indicesIntoCompressionCodes.end(), custom_sort);
+  std::sort(bytesPresentInInput.begin(),
+            bytesPresentInInput.end(),
+            sizewise_then_valuewise);
 
   bool first = true;
+
   DynamicBitset<> previous;
-  for (unsigned char c : indicesIntoCompressionCodes) {
-    auto& current = *codeTable[c];
+  for (uint8_t b : bytesPresentInInput) {
+    auto& current = *codeTable[b];
     if (first) {
       for (int i = 0; i < current.size(); ++i) {
         current[i] = 0;
@@ -91,6 +98,7 @@ void Compressor::convertToCanonical() {
     } else {
       ++previous;
       if (current.size() == previous.size()) {
+        // current.copy(previous);
         current.assign(previous);
       } else {
         int currentSize = current.size();
