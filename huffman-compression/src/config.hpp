@@ -27,7 +27,10 @@ class Config {
   const std::string& getOutputFile() { return output_file; }
 
   Mode getMode() { return mode; }
-  Mode setMode(Mode newMode) { mode = newMode; }
+  Mode setMode(Mode newMode) {
+    mode = newMode;
+    return mode;
+  }
 
  private:
   std::string input_file;

@@ -29,8 +29,23 @@ if(CATCH STREQUAL "CATCH-NOTFOUND")
         "and put it into ${PROJECT_SOURCE_DIR}/include")
   endif()
 endif()
-option(ENABLE_IPO "Enables Interprocedural optimization" ON)
 
+# Running ctags
+find_program(CTAGS ctags)
+
+if(CTAGS)
+  set_source_files_properties(tags PROPERTIES GENERATED true)
+  add_custom_command(
+    OUTPUT tags
+    COMMAND ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+  add_custom_target(dummy_target ALL DEPENDS tags)
+endif()
+
+# exports a compile_commands.json file which can then be used by linters
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(ENABLE_IPO "Enables Interprocedural optimization" ON)
 if(ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result OUTPUT output)

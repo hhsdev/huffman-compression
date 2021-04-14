@@ -4,4 +4,5 @@ include/*
 *.swp
 bin/
 DEV_ALIASES
-
+compile_commands.json
+tags
