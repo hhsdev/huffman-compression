@@ -11,7 +11,7 @@ std::string Reader::decompress(std::istream& source) {
   Huffman::CharSizedArray<unsigned char> codeLengths =
       this->extractHead(contents);
   HuffmanTree tree = TreeReconstruction::reconstructFrom(codeLengths);
-  return mDecompressor.decompress(tree, extractData(contents));
+  return mDecompressor.decompress(tree, extractBitset(contents));
 }
 
 Huffman::CharSizedArray<unsigned char> Reader::extractHead(
@@ -24,6 +24,18 @@ Huffman::CharSizedArray<unsigned char> Reader::extractHead(
   }
   return ret;
 }
+
+Bitset Reader::extractBitset(const std::string& contents) {
+  const int paddingByteSize = 1;
+  const int paddingByteLocation = headMagicBytes.size() +
+                                  Huffman::NUM_ALL_CHARS +
+                                  bodyMagicBytes.size() + 4;
+  const int padding = contents[paddingByteLocation];
+  std::string_view view = contents;
+  view = view.substr(paddingByteLocation + 1);
+  return Bitset(view, view.size() * CHAR_BIT - padding);
+}
+
 
 StringViewBitset Reader::extractData(const std::string& contents) {
   const int paddingByteSize = 1;

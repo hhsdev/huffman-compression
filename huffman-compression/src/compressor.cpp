@@ -64,14 +64,11 @@ void Compressor::doBuildCodeTable(const HuffmanTree& tree) {
 void Compressor::convertToCanonical() {
   std::vector<uint8_t> bytesPresentInInput;
 
-  for (auto byte : indices(codeTable)) {
-    if (codeTable.exists(byte))
-      bytesPresentInInput.push_back(i);
+  for (int byte = 0; byte < codeTable.size(); ++byte) {
+    if (codeTable[byte] != nullptr && codeTable[byte]->size() > 0) {
+      bytesPresentInInput.push_back(byte);
+    }
   }
-  // for (uint8_t byte = 0; byte < codeTable.size(); ++byte) {
-  //  // if (codeTable[i] != nullptr && codeTable[i]->size() > 0) {
-  //  // bytesPresentInInput.push_back(i);
-  //}
 
   auto sizewise_then_valuewise = [this](uint8_t a, uint8_t b) -> bool {
     if (codeTable[a]->size() < codeTable[b]->size())

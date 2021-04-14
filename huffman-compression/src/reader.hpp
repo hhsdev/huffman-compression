@@ -19,6 +19,7 @@ class Reader {
   std::string decompress(std::istream& source);
 
  private:
+  Bitset extractBitset(const std::string& contents);
   Huffman::CharSizedArray<unsigned char> extractHead(
       const std::string& contents);
   StringViewBitset extractData(const std::string& contents);

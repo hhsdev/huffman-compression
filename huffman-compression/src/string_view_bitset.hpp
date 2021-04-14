@@ -80,12 +80,11 @@ inline bool StringViewBitset::getFromString(const int index) const {
 inline bool StringViewBitset::get(const int index) const {
 	//TODO: Make a constant version of StringViewBitset 
 	// so that we don't have to bother with all these checks
-  return getFromString(index);
-  //if (mapsToAdditions(index)) {
-  //  return additions[index];
-  //} else if (isOverridden(index)) {
-  //  return !getFromString(index - additions.size());
-  //} else {
-  //  return getFromString(index - additions.size());
-  //}
+  if (mapsToAdditions(index)) {
+    return additions[index];
+  } else if (isOverridden(index)) {
+    return !getFromString(index - additions.size());
+  } else {
+    return getFromString(index - additions.size());
+  }
 }
