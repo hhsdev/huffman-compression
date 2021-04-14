@@ -152,7 +152,8 @@ class DynamicBitset : public BaseBitset {
     }
   }
 
- private:
+  // private:
+ public:
   bool isPowerOf2(Block n) { return (n & (n - 1)) == 0; }
   void pushBackNewBlock(block_type value) { blocks.push_back(value); }
   std::vector<Block> blocks;
@@ -161,13 +162,51 @@ class DynamicBitset : public BaseBitset {
 };
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const DynamicBitset<T>& bits) {
-  int byteSize = std::ceil(bits.size() / (double)CHAR_BIT);
-  for (int i = byteSize - 1; i >= 0; --i) {
-    os << bits.getByte(i);
+inline std::string makeByte(T ch) {
+  std::string ret;
+  constexpr auto sz = CHAR_BIT * sizeof ch;
+  for (int i = sz - 1; i >= 0; --i) {
+    ret.push_back((ch >> i) & 1U ? '1' : '0');
   }
-  return os;
-  // for (T b : bits.blocks) {
-  //  os.write(reinterpret_cast<char*>(&b), sizeof(T));
-  //}
+  return ret;
+}
+
+template <typename T>
+void serialize(T n, char buffer[sizeof n]) {
+  auto shiftValue = (sizeof(T) - 1) * CHAR_BIT;
+  for (int i = 0; i < sizeof(T); ++i) {
+    buffer[i] = n >> shiftValue;
+    shiftValue -= CHAR_BIT;
+  }
+};
+
+template <typename Block>
+std::ostream& operator<<(std::ostream& os, const DynamicBitset<Block>& bits) {
+   constexpr int bitsPerBlock = sizeof(Block) * CHAR_BIT;
+   const int offset = bits.size() % CHAR_BIT ? CHAR_BIT - bits.size() % CHAR_BIT : 0;
+   Block remainingBits = 0;
+
+   // write the buffer block
+   for (auto block : bits.blocks) {
+     const Block currentLowerBits = block << (bitsPerBlock - offset);
+     block = (block >> offset) | remainingBits;
+     remainingBits = currentLowerBits;
+     char buffer[sizeof block];
+     serialize(block, buffer);
+     os.write(buffer, sizeof(Block));
+   }
+
+   // Shift the written bits to the left so that reinterprest_cast to char* works
+   // correctly (i.e. 0b[unused buffer][written buffer] becomes 0b[written
+   // buffer][unused buffer])
+   Block bufferBlockLeftAligned =
+       (bits.bufferBlock << (bitsPerBlock - bits.bufferBlockSize - offset)) |
+       remainingBits;
+   const int numBytesWrittenToBufferBlock =
+       std::ceil(bits.bufferBlockSize / (double)CHAR_BIT);
+   char buffer[sizeof(Block)];
+   serialize(bufferBlockLeftAligned, buffer);
+   os.write(buffer, numBytesWrittenToBufferBlock);
+
+   return os;
 }
